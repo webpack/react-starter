@@ -1,0 +1,35 @@
+{
+  "name": "react-starter",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-server": "webpack-dev-server --config webpack-dev-server.config.js --progress --colors --port 2992",
+    "hot-dev-server": "webpack-dev-server --config webpack-hot-dev-server.config.js --hot --progress --colors --port 2992",
+    "build": "webpack -p --config webpack-production.config.js --progress --colors",
+    "start": "node lib/server"
+  },
+  "keywords": [
+    "webpack",
+    "react",
+    "starter",
+    "boilerplate",
+    "hot"
+  ],
+  "author": "Tobias Koppers @sokra",
+  "license": "MIT",
+  "dependencies": {
+    "style-loader": "^0.6.4",
+    "react-proxy-loader": "^0.2.0",
+    "react-hot-loader": "^0.2.0",
+    "react": "^0.11.1",
+    "css-loader": "^0.7.0",
+    "jsx-loader": "^0.11.0",
+    "webpack": "^1.3.2-beta9",
+    "extract-text-webpack-plugin": "^0.2.3",
+    "webpack-dev-server": "^1.4.7",
+    "reflux": "^0.1.5",
+    "express": "^4.7.2"
+  }
+}
