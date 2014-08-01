@@ -79,9 +79,11 @@ The production setting builds two configurations: one for the client (`build/pub
 > WIP: Serverside data fetching and embedding data into served HTML.
 
 
-## Build visualisation
+## Build visualization
 
+After a production build you may want to visualize you modules and chunks tree.
 
+Use the [analyse tool](http://webpack.github.io/analyse/) with the file at `build/stats.json`.
 
 
 ## Loaders and file types
