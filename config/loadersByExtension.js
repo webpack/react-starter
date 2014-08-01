@@ -28,6 +28,6 @@ module.exports = function loadersByExtension(obj) {
 
 function extsToRegExp(exts) {
 	return new RegExp("\\.(" + exts.map(function(ext) {
-		return ext.replace(/\./g, "\\.");
+		return ext.replace(/\./g, "\\.") + "(\\?.*)?";
 	}).join("|") + ")$");
 }

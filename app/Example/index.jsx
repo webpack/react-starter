@@ -1,12 +1,14 @@
 /** @jsx React.DOM */
 
 var React = require("react");
+
 var Display = require("./Display");
 var Control = require("./Control");
 
 var Example = React.createClass({
 	render: function() {
-		return <div>
+		require("./style.less");
+		return <div className="module-example">
 			<Display />
 			<div>
 				<Control action="increment" label="+1" />

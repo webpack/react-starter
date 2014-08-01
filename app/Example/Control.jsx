@@ -8,7 +8,7 @@ var Example = React.createClass({
 		return <button onClick={this._onClick}>{this.props.label}</button>;
 	},
 	_onClick: function() {
-		Actions[this.props.action]();
+		Actions.view[this.props.action]();
 	}
 });
 module.exports = Example;
