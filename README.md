@@ -99,7 +99,7 @@ Many file types are preconfigured, but not every loader is installed. If you get
 
 1. Add an entry point to `make-webpack-config.js` (`var entry`).
 2. Add a new top-level react component in `app`.
-3. (Optional) Enable `commonsChunk` in `webpack-production.config.js`.
+3. (Optional) Enable `commonsChunk` in `webpack-production.config.js` and add `<script src="COMMONS_URL"></script>` to `app/prerender.html`.
 4. Add a new HTML file in `config/dev-server-public` that references the new output file.
 5. Restart compilation.
 

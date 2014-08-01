@@ -45,6 +45,7 @@ module.exports = function(options) {
 	var root = path.join(__dirname, "app");
 	var output = {
 		path: path.join(__dirname, "build", options.prerender ? "prerender" : "public"),
+		publicPath: "/",
 		filename: "[name].js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
 		chunkFilename: (options.devServer ? "[id].js" : "[name].js") + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
 		sourceMapFilename: "debugging/[file].map",
