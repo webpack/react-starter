@@ -49,7 +49,7 @@ It automatically recompiles and refreshes the page when files are changed.
 ## Hot Module Replacement development server
 
 ``` text
-npm run dev-server
+npm run hot-dev-server
 http://localhost:2992/
 ```
 
