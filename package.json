@@ -34,6 +34,7 @@
     "stylus-loader": "^0.4.0",
     "less": "^1.7.4",
     "less-loader": "^0.7.5",
-    "null-loader": "^0.1.0"
+    "null-loader": "^0.1.0",
+    "html-loader": "^0.2.2"
   }
 }
