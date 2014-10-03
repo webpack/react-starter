@@ -15,7 +15,7 @@ module.exports = function(options) {
 		"json": "json-loader",
 		"json5": "json5-loader",
 		"txt": "raw-loader",
-		"png|jgp|jpeg|gif|svg": "url-loader?limit=10000",
+		"png|jpg|jpeg|gif|svg": "url-loader?limit=10000",
 		"woff": "url-loader?limit=100000",
 		"ttf": "file-loader",
 		"wav|mp3": "file-loader",
