@@ -46,8 +46,8 @@ module.exports = function(options) {
 	var output = {
 		path: path.join(__dirname, "build", options.prerender ? "prerender" : "public"),
 		publicPath: "/",
-		filename: "[name].js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
-		chunkFilename: (options.devServer ? "[id].js" : "[name].js") + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
+		filename: "[name]" + (options.longTermCaching && !options.prerender ? ".[chunkhash].js" : ".js"),
+		chunkFilename: (options.devServer ? "[id]" : "[name]") + (options.longTermCaching && !options.prerender ? "[chunkhash].js" : ".js"),
 		sourceMapFilename: "debugging/[file].map",
 		libraryTarget: options.prerender ? "commonjs2" : undefined,
 		pathinfo: options.debug,
@@ -74,7 +74,7 @@ module.exports = function(options) {
 		plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }));
 	}
 	if(options.commonsChunk) {
-		plugins.push(new webpack.optimize.CommonsChunkPlugin("commons", "commons.js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : "")));
+		plugins.push(new webpack.optimize.CommonsChunkPlugin("commons", "commons" + (options.longTermCaching && !options.prerender ? ".[chunkhash].js" : ".js")));
 	}
 
 
