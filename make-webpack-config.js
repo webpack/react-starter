@@ -17,7 +17,7 @@ module.exports = function(options) {
 		"txt": "raw-loader",
 		"png|jpg|jpeg|gif|svg": "url-loader?limit=10000",
 		"woff": "url-loader?limit=100000",
-		"ttf": "file-loader",
+		"ttf|eot": "file-loader",
 		"wav|mp3": "file-loader",
 		"html": "html-loader",
 		"md|markdown": ["html-loader", "markdown-loader"],
