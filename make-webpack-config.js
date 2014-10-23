@@ -41,7 +41,7 @@ module.exports = function(options) {
 
 	];
 	var modulesDirectories = ["web_modules", "node_modules"];
-	var extensions = ["", ".web.js", ".js", ".jsx"];
+	var extensions = ["", ".web.js", ".js", ".jsx", ".coffee"];
 	var root = path.join(__dirname, "app");
 	var output = {
 		path: path.join(__dirname, "build", options.prerender ? "prerender" : "public"),
