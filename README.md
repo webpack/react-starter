@@ -6,6 +6,7 @@ Starter template for react and webpack.
 
 * Compilation with webpack
 * React and jsx
+* react-router
 * Also includes reflux, but this can be easily replaced
 * Stylesheets can be CSS, LESS, SASS, Stylus or mixed
 * Embedded resources like images or fonts use DataUrls if appropriate
@@ -35,8 +36,9 @@ npm install
 ## Development server
 
 ``` text
-npm run dev-server
-http://localhost:2992/
+npm run dev-server &
+npm run start-dev
+http://localhost:8080/
 ```
 
 The configuration is `webpack-dev-server.config.js`.
@@ -49,8 +51,9 @@ It automatically recompiles and refreshes the page when files are changed.
 ## Hot Module Replacement development server
 
 ``` text
-npm run hot-dev-server
-http://localhost:2992/
+npm run hot-dev-server &
+npm run start-dev
+http://localhost:8080/
 ```
 
 The configuration is `webpack-hot-dev-server.config.js`.
@@ -67,7 +70,7 @@ Hot Module Replacement has a performance impact on compilation.
 ``` text
 npm run build
 npm start
-http://localhost:8080/
+http://localhost:80/
 ```
 
 The configuration is `webpack-production.config.js`.

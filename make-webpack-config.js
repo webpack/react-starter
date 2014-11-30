@@ -6,7 +6,7 @@ var joinEntry = require("./config/joinEntry");
 
 module.exports = function(options) {
 	var entry = {
-		main: reactEntry("Main")
+		main: reactEntry("main")
 		// second: reactEntry("Second")
 	};
 	var loaders = {
@@ -43,9 +43,12 @@ module.exports = function(options) {
 	var modulesDirectories = ["web_modules", "node_modules"];
 	var extensions = ["", ".web.js", ".js", ".jsx"];
 	var root = path.join(__dirname, "app");
+	var publicPath = options.devServer ?
+		"http://localhost:2992/_assets/" :
+		"/_assets/";
 	var output = {
 		path: path.join(__dirname, "build", options.prerender ? "prerender" : "public"),
-		publicPath: "/",
+		publicPath: publicPath,
 		filename: "[name].js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
 		chunkFilename: (options.devServer ? "[id].js" : "[name].js") + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
 		sourceMapFilename: "debugging/[file].map",
@@ -56,12 +59,14 @@ module.exports = function(options) {
 		function() {
 			if(!options.prerender) {
 				this.plugin("done", function(stats) {
-					require("fs").writeFileSync(path.join(__dirname, "build", "stats.json"), JSON.stringify(stats.toJson({
+					var jsonStats = stats.toJson({
 						chunkModules: true,
 						exclude: [
-							/node_modules[\\\/]react/
+							/node_modules[\\\/]react(-router)?[\\\/]/
 						]
-					})));
+					});
+					jsonStats.publicPath = publicPath;
+					require("fs").writeFileSync(path.join(__dirname, "build", "stats.json"), JSON.stringify(jsonStats));
 				});
 			}
 		},
@@ -80,12 +85,6 @@ module.exports = function(options) {
 
 	function reactEntry(name) {
 		return (options.prerender ? "./config/prerender?" : "./config/app?") + name;
-	}
-	if(options.devServer) {
-		if(options.hot) {
-			entry = joinEntry("webpack/hot/dev-server", entry);
-		}
-		entry = joinEntry("webpack-dev-server/client?http://localhost:2992", entry);
 	}
 	Object.keys(stylesheetLoaders).forEach(function(ext) {
 		var loaders = stylesheetLoaders[ext];
@@ -109,7 +108,8 @@ module.exports = function(options) {
 				"process.env": {
 					NODE_ENV: JSON.stringify("production")
 				}
-			})
+			}),
+			new webpack.NoErrorsPlugin()
 		);
 	}
 

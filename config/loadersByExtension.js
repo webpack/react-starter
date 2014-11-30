@@ -9,19 +9,21 @@ module.exports = function loadersByExtension(obj) {
 	Object.keys(obj).forEach(function(key) {
 		var exts = key.split("|");
 		var value = obj[key];
+		var entry = {
+			extensions: exts,
+			test: extsToRegExp(exts),
+			loaders: value
+		};
 		if(Array.isArray(value)) {
-			loaders.push({
-				extensions: exts,
-				test: extsToRegExp(exts),
-				loaders: value
-			});
+			entry.loaders = value;
+		} else if(typeof value === "string") {
+			entry.loader = value;
 		} else {
-			loaders.push({
-				extensions: exts,
-				test: extsToRegExp(exts),
-				loader: value
+			Object.keys(value).forEach(function(key) {
+				entry[key] = value[key];
 			});
 		}
+		loaders.push(entry);
 	});
 	return loaders;
 };

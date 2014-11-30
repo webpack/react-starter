@@ -1,6 +1,20 @@
 /** @jsx React.DOM */
 
 var React = require("react");
-var Application = require("../app/" + __resourceQuery.substr(1));
+var Router = require("react-router");
+var routes = require("../app/" + __resourceQuery.substr(1) + "Routes");
+var stores = require("../app/" + __resourceQuery.substr(1) + "Stores")();
 
-React.renderComponent(<Application />, document.body);
+var initialRun = true;
+
+Router.run(routes(stores), Router.HistoryLocation, function(Application) {
+	React.render(<Application />, document.getElementById("content"));
+	if(!initialRun) {
+		process.nextTick(function() {
+			Object.keys(stores).forEach(function(key) {
+				stores[key].update();
+			});
+		});
+	}
+	initialRun = false;
+});
