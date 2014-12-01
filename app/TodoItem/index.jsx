@@ -1,7 +1,7 @@
 var React = require("react");
 var State = require("react-router").State;
 var Link = require("react-router").Link;
-var StateFromStoreMixin = require("../StateFromStoreMixin");
+var StateFromStoreMixin = require("items-store/StateFromStoresMixin");
 var Todo = require("../actions").Todo;
 
 var TodoItem = React.createClass({

@@ -7,7 +7,6 @@ Starter template for react and webpack.
 * Compilation with webpack
 * React and jsx
 * react-router
-* Also includes reflux, but this can be easily replaced
 * Stylesheets can be CSS, LESS, SASS, Stylus or mixed
 * Embedded resources like images or fonts use DataUrls if appropriate
 * A simple flag loads a react component (and dependencies) on demand.
@@ -17,9 +16,10 @@ Starter template for react and webpack.
   * Uses SourceUrl for performance, but you may switch to SourceMaps easily
 * Production
   * Server example for prerendering for React components
-  * Long Term Cacheing through file hashes enabled
+  * Initial data inlined in page
+  * Long Term Caching through file hashes enabled
   * Generate separate css file to avoid FOUC
-  * Minized CSS, HTML and javascript
+  * Minimized CSS and javascript
 * Also supports coffee-script files if you are more a coffee-script guy.
 * You can also require markdown or text files for your content.
 * Just require the files...

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var async = require("async");
 var React = require("react");
 var Router = require("react-router");
@@ -9,7 +7,7 @@ var html = require("../app/prerender.html");
 
 module.exports = function(path, readItems, scriptUrl, styleUrl, commonsUrl, callback) {
 	var stores = storesPrerender(readItems);
-	Router.run(routes(Object.assign({ prerender: true }, stores)), path, function(Application, state) {
+	Router.run(routes, path, function(Application, state) {
 		async.forEach(state.routes, function(route, callback) {
 			if(route.handler.chargeStores) {
 				route.handler.chargeStores(stores, state.params, callback);
@@ -17,7 +15,11 @@ module.exports = function(path, readItems, scriptUrl, styleUrl, commonsUrl, call
 				callback();
 			}
 		}, function() {
-			var application = React.renderToString(<Application />);
+			var application = React.withContext({
+				stores: stores
+			}, function() {
+				return React.renderToString(<Application />);
+			});
 			callback(null, html
 				.replace("STYLE_URL", styleUrl)
 				.replace("SCRIPT_URL", scriptUrl)

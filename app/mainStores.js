@@ -1,4 +1,4 @@
-var ItemsStore = require("./ItemsStore");
+var ItemsStore = require("items-store/ItemsStore");
 var request = require("superagent");
 var async = require("async");
 

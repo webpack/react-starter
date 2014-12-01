@@ -1,7 +1,6 @@
-var createActions = require("./createActions");
+var createActions = require("items-store/Actions");
 
-exports.Todo = createActions([
+exports.Todo = Actions.create([
 	"add",
 	"update"
 ]);
-
