@@ -10,7 +10,7 @@ var TodoItem = React.createClass({
 		getState: function(stores, params) {
 			return {
 				id: params.item,
-				item: stores.TodoItem(params.item)
+				item: stores.TodoItem.getItem(params.item)
 			};
 		},
 	},

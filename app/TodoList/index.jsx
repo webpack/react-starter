@@ -8,13 +8,13 @@ var TodoList = React.createClass({
 	mixins: [State, StateFromStoreMixin],
 	statics: {
 		getState: function(stores, params) {
-			var list = stores.TodoList(params.list);
+			var list = stores.TodoList.getItem(params.list);
 			return {
 				id: params.list,
 				list: list,
 				items: list && list.map(function(item) {
 					if(typeof item === "string")
-						return stores.TodoItem(item);
+						return stores.TodoItem.getItem(item);
 				}.bind(this))
 			};
 		},
