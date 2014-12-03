@@ -46,55 +46,55 @@ function readMultipleItems(path, resultHandler) {
 
 var desc = require("./mainStoresDescriptions");
 var actions = require("./actions");
-module.exports = function createStores() {
-	var queue = async.queue(function(fn, callback) {
-		process.nextTick(function() {
-			fn(callback);
-		});
-	}, 1);
-	
-	var initialData = typeof __StoreData === "object" ? __StoreData : {};
 
-	var stores = {
-		TodoItem: new ItemsStore(Object.assign({
-			writeAndReadSingleItem: writeAndReadSingleItem("/_/todo/"),
-			readSingleItem: readSingleItem("/_/todo/"),
-			readMultipleItems: readMultipleItems("/_/todo/"),
-
-			queue: queue,
-			queueRequest: queue.push.bind(queue),
-			maxWriteItems: 10
-		}, desc.TodoItem), initialData.TodoItem),
-
-		TodoList: new ItemsStore(Object.assign({
-			writeAndReadSingleItem: writeAndReadSingleItem("/_/list/", function(result) {
-				Object.keys(result.items).forEach(function(key) {
-					stores.TodoItem.setItemData(key.substr(1), result.items[key]);
-				});
-				return result.list;
-			}),
-			readSingleItem: readSingleItem("/_/list/", function(result) {
-				Object.keys(result.items).forEach(function(key) {
-					stores.TodoItem.setItemData(key.substr(1), result.items[key]);
-				});
-				return result.list;
-			}),
-
-			queue: queue,
-			queueRequest: queue.push.bind(queue),
-		}, desc.TodoList), initialData.TodoList)
-	}
-
-	actions.Todo.add.listen(function(list, item) {
-		stores.TodoList.updateItem(list, { $push: [item] });
+var queue = async.queue(function(fn, callback) {
+	process.nextTick(function() {
+		fn(callback);
 	});
+}, 1);
 
-	actions.Todo.update.listen(function(id, update) {
-		stores.TodoItem.updateItem(id, update);
-	});
+var initialData = typeof __StoreData === "object" ? __StoreData : {};
 
-	return stores;
-}
+var stores = module.exports = {
+	Router: new ItemsStore(Object.assign({
+		readSingleItem: function(item, callback) {
+			callback(null, item.oldItem);
+		}
+	}, desc.Router)),
 
+	TodoItem: new ItemsStore(Object.assign({
+		writeAndReadSingleItem: writeAndReadSingleItem("/_/todo/"),
+		readSingleItem: readSingleItem("/_/todo/"),
+		readMultipleItems: readMultipleItems("/_/todo/"),
 
+		queue: queue,
+		queueRequest: queue.push.bind(queue),
+		maxWriteItems: 10
+	}, desc.TodoItem), initialData.TodoItem),
 
+	TodoList: new ItemsStore(Object.assign({
+		writeAndReadSingleItem: writeAndReadSingleItem("/_/list/", function(result) {
+			Object.keys(result.items).forEach(function(key) {
+				stores.TodoItem.setItemData(key.substr(1), result.items[key]);
+			});
+			return result.list;
+		}),
+		readSingleItem: readSingleItem("/_/list/", function(result) {
+			Object.keys(result.items).forEach(function(key) {
+				stores.TodoItem.setItemData(key.substr(1), result.items[key]);
+			});
+			return result.list;
+		}),
+
+		queue: queue,
+		queueRequest: queue.push.bind(queue),
+	}, desc.TodoList), initialData.TodoList)
+};
+
+actions.Todo.add.listen(function(list, item) {
+	stores.TodoList.updateItem(list, { $push: [item] });
+});
+
+actions.Todo.update.listen(function(id, update) {
+	stores.TodoItem.updateItem(id, update);
+});

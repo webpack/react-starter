@@ -37,6 +37,7 @@ function mergeUpdates(a, b) {
 }
 
 module.exports = {
+	Router: {},
 	TodoItem: {},
 	TodoList: {
 		applyUpdate: require("react/lib/update"),

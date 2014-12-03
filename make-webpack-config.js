@@ -79,7 +79,12 @@ module.exports = function(options) {
 	];
 	if(options.prerender) {
 		aliasLoader["react-proxy$"] = "react-proxy/unavailable";
-		externals.push(/^react(\/.*)?$/, /^reflux(\/.*)?$/);
+		externals.push(
+			/^react(\/.*)?$/,
+			/^reflux(\/.*)?$/,
+			"superagent",
+			"async"
+		);
 		plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }));
 	}
 	if(options.commonsChunk) {

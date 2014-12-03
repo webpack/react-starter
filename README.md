@@ -36,8 +36,15 @@ npm install
 ## Development server
 
 ``` text
-npm run dev-server &
+# start the webpack-dev-server
+npm run dev-server
+# wait for the first compilation is successful
+
+# in another terminal/console
+# start the node.js server in development mode
 npm run start-dev
+
+# open this url in your browser
 http://localhost:8080/
 ```
 
@@ -51,8 +58,15 @@ It automatically recompiles and refreshes the page when files are changed.
 ## Hot Module Replacement development server
 
 ``` text
-npm run hot-dev-server &
+# start the webpack-dev-server in HMR mode
+npm run hot-dev-server
+# wait for the first compilation is successful
+
+# in another terminal/console
+# start the node.js server in development mode
 npm run start-dev
+
+# open this url in your browser
 http://localhost:8080/
 ```
 
@@ -68,8 +82,13 @@ Hot Module Replacement has a performance impact on compilation.
 ## Production compilation and server
 
 ``` text
+# build the client bundle and the prerendering bundle
 npm run build
-npm start
+
+# start the node.js server in production mode
+npm run start
+
+# open this url in your browser
 http://localhost:80/
 ```
 
