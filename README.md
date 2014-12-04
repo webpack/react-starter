@@ -98,8 +98,6 @@ The server is at `lib/server.js`
 
 The production setting builds two configurations: one for the client (`build/public`) and one for the serverside prerendering (`build/prerender`).
 
-> WIP: Serverside data fetching and embedding data into served HTML.
-
 
 ## Build visualization
 
