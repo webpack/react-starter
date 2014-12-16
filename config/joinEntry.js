@@ -1,3 +1,4 @@
+// Helper function for merging webpack entries
 module.exports = function joinEntry(current) {
 	var args = Array.prototype.slice.call(arguments, 1);
 	if(typeof current === "string") {

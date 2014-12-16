@@ -7,8 +7,13 @@ var withTimeout = require("./withTimeout");
 
 var initialRun = true;
 
+// react-router handles location
 Router.run(routes, Router.HistoryLocation, function(Application, state) {
+
 	stores.Router.setItemData("transition", state);
+
+	// try to fetch data for a defined timespan
+	// when the data is not fully fetched after the timeout components are rendered (with missing/old data)
 	withTimeout(async.forEach.bind(async, state.routes, function(route, callback) {
 		if(route.handler.chargeStores) {
 			route.handler.chargeStores(stores, state.params, callback);
@@ -18,6 +23,8 @@ Router.run(routes, Router.HistoryLocation, function(Application, state) {
 	}), 600, function() {
 
 		stores.Router.setItemData("transition", null);
+
+		// Render the components with the stores
 		React.withContext({
 			stores: stores
 		}, function() {
@@ -25,6 +32,8 @@ Router.run(routes, Router.HistoryLocation, function(Application, state) {
 		});
 	});
 
+	// On every page navigation invalidate data from the stores
+	// This is not needed when the server notifies the client about changes (WebSocket, SSE)
 	if(!initialRun) {
 		process.nextTick(function() {
 			Object.keys(stores).forEach(function(key) {

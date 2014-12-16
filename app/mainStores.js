@@ -1,6 +1,9 @@
 var ItemsStore = require("items-store/ItemsStore");
-var request = require("superagent");
 var async = require("async");
+var request = require("superagent");
+
+
+// a few helper methods for a REST API
 
 function writeAndReadSingleItem(path, resultHandler) {
 	resultHandler = resultHandler || function(result) { return result; };
@@ -44,35 +47,44 @@ function readMultipleItems(path, resultHandler) {
 	}
 }
 
-var desc = require("./mainStoresDescriptions");
-var actions = require("./actions");
-
+// a queue that allows only one REST request at a time
+// it also defers the requests to next tick, to aggregate multiple changes
 var queue = async.queue(function(fn, callback) {
 	process.nextTick(function() {
 		fn(callback);
 	});
 }, 1);
 
+// load embedded initial store data from prerendering if available
 var initialData = typeof __StoreData === "object" ? __StoreData : {};
+
+// take the store descriptions as base
+var desc = require("./mainStoresDescriptions");
 
 var stores = module.exports = {
 	Router: new ItemsStore(Object.assign({
+		// no remote data
 		readSingleItem: function(item, callback) {
 			callback(null, item.oldItem);
 		}
 	}, desc.Router)),
 
 	TodoItem: new ItemsStore(Object.assign({
+		// REST API at "/_/todo"
+		// it supports reading up to 10 items at once
+		
 		writeAndReadSingleItem: writeAndReadSingleItem("/_/todo/"),
 		readSingleItem: readSingleItem("/_/todo/"),
 		readMultipleItems: readMultipleItems("/_/todo/"),
 
-		queue: queue,
 		queueRequest: queue.push.bind(queue),
 		maxWriteItems: 10
 	}, desc.TodoItem), initialData.TodoItem),
 
 	TodoList: new ItemsStore(Object.assign({
+		// REST API at "/_/list/"
+		// the API also returns "TodoItem"s for requests
+		
 		writeAndReadSingleItem: writeAndReadSingleItem("/_/list/", function(result) {
 			Object.keys(result.items).forEach(function(key) {
 				stores.TodoItem.setItemData(key.substr(1), result.items[key]);
@@ -86,10 +98,14 @@ var stores = module.exports = {
 			return result.list;
 		}),
 
-		queue: queue,
 		queueRequest: queue.push.bind(queue),
 	}, desc.TodoList), initialData.TodoList)
 };
+
+
+// bind actions to stores
+
+var actions = require("./actions");
 
 actions.Todo.add.listen(function(list, item) {
 	stores.TodoList.updateItem(list, { $push: [item] });

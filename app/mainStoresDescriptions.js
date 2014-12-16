@@ -1,3 +1,5 @@
+// a helper method for merging react style updates
+// (not totally correct, but fine for now)
 function mergeUpdates(a, b) {
 	if(typeof a === "object" && typeof b === "object") {
 		var res = {};
@@ -37,8 +39,16 @@ function mergeUpdates(a, b) {
 }
 
 module.exports = {
+	// the Router is a local store that handles information about data fetching
+	// see ../config/app.jsx
 	Router: {},
+
+	// stores TodoItems
+	// changes are in the default format
 	TodoItem: {},
+	
+	// stores TodoLists
+	// changes are react style updates
 	TodoList: {
 		applyUpdate: require("react/lib/update"),
 		mergeUpdates: mergeUpdates,
