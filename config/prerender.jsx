@@ -11,7 +11,8 @@ var html = require("../app/prerender.html");
 function createStoresPrerender(readItems) {
 	return Object.keys(storesDescriptions).reduce(function(obj, name) {
 		obj[name] = new ItemsStore(Object.assign({
-			readSingleItem: readItems[name]
+			readSingleItem: readItems[name],
+			queueRequest: function(fn) { fn(); }
 		}, storesDescriptions[name]));
 		return obj;
 	}, {});
@@ -45,7 +46,8 @@ module.exports = function(path, readItems, scriptUrl, styleUrl, commonsUrl, call
 				.replace("SCRIPT_URL", scriptUrl)
 				.replace("COMMONS_URL", commonsUrl)
 				.replace("DATA", JSON.stringify(Object.keys(stores).reduce(function(obj, name) {
-					obj[name] = stores[name].getData();
+					if(!stores[name].desc.local)
+						obj[name] = stores[name].getData();
 					return obj;
 				}, {})))
 				.replace("CONTENT", application));

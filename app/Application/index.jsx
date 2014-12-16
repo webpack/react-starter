@@ -10,12 +10,12 @@ var Application = React.createClass({
 		getState: function(stores, params) {
 			var transition = stores.Router.getItem("transition");
 			return {
-				loading: !!(transition && transition.path)
+				loading: !!transition
 			};
 		},
 	},
 	render: function() {
-		return <div>
+		return <div className={this.state.loading ? "application loading" : "application"}>
 			{this.state.loading ? <div style={{float: "right"}}>loading...</div> : null}
 			<h1>react-starter</h1>
 			<RouteHandler />

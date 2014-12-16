@@ -62,12 +62,7 @@ var initialData = typeof __StoreData === "object" ? __StoreData : {};
 var desc = require("./mainStoresDescriptions");
 
 var stores = module.exports = {
-	Router: new ItemsStore(Object.assign({
-		// no remote data
-		readSingleItem: function(item, callback) {
-			callback(null, item.oldItem);
-		}
-	}, desc.Router), {_transition: {}}),
+	Router: new ItemsStore(desc.Router),
 
 	TodoItem: new ItemsStore(Object.assign({
 		// REST API at "/_/todo"
