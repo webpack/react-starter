@@ -12,6 +12,15 @@ Router.run(routes, Router.HistoryLocation, function(Application, state) {
 
 	stores.Router.setItemData("transition", state);
 
+	// On every page navigation invalidate data from the stores
+	// This is not needed when the server notifies the client about changes (WebSocket, SSE)
+	if(!initialRun) {
+		Object.keys(stores).forEach(function(key) {
+			stores[key].update();
+		});
+	}
+	initialRun = false;
+
 	// try to fetch data for a defined timespan
 	// when the data is not fully fetched after the timeout components are rendered (with missing/old data)
 	withTimeout(async.forEach.bind(async, state.routes, function(route, callback) {
@@ -22,7 +31,7 @@ Router.run(routes, Router.HistoryLocation, function(Application, state) {
 		}
 	}), 600, function() {
 
-		stores.Router.setItemData("transition", null);
+		stores.Router.setItemData("transition", {});
 
 		// Render the components with the stores
 		React.withContext({
@@ -31,15 +40,4 @@ Router.run(routes, Router.HistoryLocation, function(Application, state) {
 			React.render(<Application />, document.getElementById("content"));
 		});
 	});
-
-	// On every page navigation invalidate data from the stores
-	// This is not needed when the server notifies the client about changes (WebSocket, SSE)
-	if(!initialRun) {
-		process.nextTick(function() {
-			Object.keys(stores).forEach(function(key) {
-				stores[key].update();
-			});
-		});
-	}
-	initialRun = false;
 });

@@ -67,7 +67,7 @@ var stores = module.exports = {
 		readSingleItem: function(item, callback) {
 			callback(null, item.oldItem);
 		}
-	}, desc.Router)),
+	}, desc.Router), {_transition: {}}),
 
 	TodoItem: new ItemsStore(Object.assign({
 		// REST API at "/_/todo"

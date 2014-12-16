@@ -8,8 +8,9 @@ var Application = React.createClass({
 	mixins: [StateFromStoreMixin],
 	statics: {
 		getState: function(stores, params) {
+			var transition = stores.Router.getItem("transition");
 			return {
-				loading: !!stores.Router.getItem("transition")
+				loading: !!(transition && transition.path)
 			};
 		},
 	},
