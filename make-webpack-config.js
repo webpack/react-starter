@@ -59,15 +59,17 @@ module.exports = function(options) {
 		libraryTarget: options.prerender ? "commonjs2" : undefined,
 		pathinfo: options.debug,
 	};
+	var excludeFromStats = [
+		/node_modules[\\\/]react(-router)?[\\\/]/,
+		/node_modules[\\\/]items-store[\\\/]/
+	];
 	var plugins = [
 		function() {
 			if(!options.prerender) {
 				this.plugin("done", function(stats) {
 					var jsonStats = stats.toJson({
 						chunkModules: true,
-						exclude: [
-							/node_modules[\\\/]react(-router)?[\\\/]/
-						]
+						exclude: excludeFromStats
 					});
 					jsonStats.publicPath = publicPath;
 					require("fs").writeFileSync(path.join(__dirname, "build", "stats.json"), JSON.stringify(jsonStats));
@@ -142,6 +144,11 @@ module.exports = function(options) {
 			extensions: extensions,
 			alias: alias,
 		},
-		plugins: plugins
+		plugins: plugins,
+		devServer: {
+			stats: {
+				exclude: excludeFromStats
+			}
+		}
 	};
 };

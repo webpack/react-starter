@@ -44,18 +44,18 @@ module.exports = {
 	Router: {
 		local: true,
 		readSingleItem: function(item, callback) {
-			callback(null, item.oldData || {});
+			callback(null, item.oldData);
 		}
 	},
-
-	// stores TodoItems
-	// changes are in the default format
-	TodoItem: {},
 	
 	// stores TodoLists
 	// changes are react style updates
 	TodoList: {
 		applyUpdate: require("react/lib/update"),
 		mergeUpdates: mergeUpdates,
-	}
+	},
+
+	// stores TodoItems
+	// changes are in the default format
+	TodoItem: {}
 }

@@ -64,18 +64,6 @@ var desc = require("./mainStoresDescriptions");
 var stores = module.exports = {
 	Router: new ItemsStore(desc.Router),
 
-	TodoItem: new ItemsStore(Object.assign({
-		// REST API at "/_/todo"
-		// it supports reading up to 10 items at once
-		
-		writeAndReadSingleItem: writeAndReadSingleItem("/_/todo/"),
-		readSingleItem: readSingleItem("/_/todo/"),
-		readMultipleItems: readMultipleItems("/_/todo/"),
-
-		queueRequest: queue.push.bind(queue),
-		maxWriteItems: 10
-	}, desc.TodoItem), initialData.TodoItem),
-
 	TodoList: new ItemsStore(Object.assign({
 		// REST API at "/_/list/"
 		// the API also returns "TodoItem"s for requests
@@ -94,7 +82,19 @@ var stores = module.exports = {
 		}),
 
 		queueRequest: queue.push.bind(queue),
-	}, desc.TodoList), initialData.TodoList)
+	}, desc.TodoList), initialData.TodoList),
+
+	TodoItem: new ItemsStore(Object.assign({
+		// REST API at "/_/todo"
+		// it supports reading up to 10 items at once
+		
+		writeAndReadSingleItem: writeAndReadSingleItem("/_/todo/"),
+		readSingleItem: readSingleItem("/_/todo/"),
+		readMultipleItems: readMultipleItems("/_/todo/"),
+
+		queueRequest: queue.push.bind(queue),
+		maxWriteItems: 10
+	}, desc.TodoItem), initialData.TodoItem)
 };
 
 

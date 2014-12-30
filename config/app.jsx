@@ -14,7 +14,7 @@ Router.run(routes, Router.HistoryLocation, function(Application, state) {
 	// This is not needed when the server notifies the client about changes (WebSocket, SSE)
 	if(!initialRun) {
 		Object.keys(stores).forEach(function(key) {
-			stores[key].update();
+			stores[key].outdate();
 		});
 	}
 	initialRun = false;
