@@ -20,7 +20,7 @@ Starter template for react and webpack.
   * Long Term Caching through file hashes enabled
   * Generate separate css file to avoid FOUC
   * Minimized CSS and javascript
-* Also supports coffee-script files if you are more a coffee-script guy.
+* Also supports coffee-script files if you are more a coffee-script person.
 * You can also require markdown or text files for your content.
 * Just require the files...
 
