@@ -1,9 +1,15 @@
 var ItemsStore = require("items-store/ItemsStore");
 var async = require("async");
 var request = require("superagent");
-
+var ReactUpdates = require("react/lib/ReactUpdates");
 
 // a few helper methods for a REST API
+
+function batchedCallback(callback) {
+	return function(err, res) {
+		ReactUpdates.batchedUpdates(callback.bind(null, err, res));
+	}
+}
 
 function writeAndReadSingleItem(path, resultHandler) {
 	resultHandler = resultHandler || function(result) { return result; };
@@ -12,10 +18,10 @@ function writeAndReadSingleItem(path, resultHandler) {
 			.set("Accept", "application/json")
 			.type("json")
 			.send(options.update)
-			.end(function(err, res) {
+			.end(batchedCallback(function(err, res) {
 				if(err) return callback(err);
 				callback(null, resultHandler(res.body));
-			});
+			}));
 	}
 }
 
@@ -25,10 +31,10 @@ function readSingleItem(path, resultHandler) {
 		request.get(path + options.id)
 			.set("Accept", "application/json")
 			.type("json")
-			.end(function(err, res) {
+			.end(batchedCallback(function(err, res) {
 				if(err) return callback(err);
 				callback(null, resultHandler(res.body));
-			});
+			}));
 	}
 }
 
@@ -40,10 +46,10 @@ function readMultipleItems(path, resultHandler) {
 		}).join("+"))
 			.set("Accept", "application/json")
 			.type("json")
-			.end(function(err, res) {
+			.end(batchedCallback(function(err, res) {
 				if(err) return callback(err);
 				callback(null, resultHandler(res.body));
-			});
+			}));
 	}
 }
 
