@@ -4,6 +4,7 @@ var Router = require("react-router");
 var routes = require("../app/" + __resourceQuery.substr(1) + "Routes");
 var stores = require("../app/" + __resourceQuery.substr(1) + "Stores");
 var withTimeout = require("./withTimeout");
+var ReactUpdates = require("react/lib/ReactUpdates");
 
 var initialRun = true;
 
@@ -19,7 +20,9 @@ Router.run(routes, Router.HistoryLocation, function(Application, state) {
 	}
 	initialRun = false;
 
-	stores.Router.setItemData("transition", state);
+	ReactUpdates.batchedUpdates(function() {
+		stores.Router.setItemData("transition", state);
+	});
 
 	// try to fetch data for a defined timespan
 	// when the data is not fully fetched after the timeout components are rendered (with missing/old data)
@@ -31,7 +34,9 @@ Router.run(routes, Router.HistoryLocation, function(Application, state) {
 		}
 	}), 600, function() {
 
-		stores.Router.setItemData("transition", null);
+		ReactUpdates.batchedUpdates(function() {
+			stores.Router.setItemData("transition", null);
+		});
 
 		// Render the components with the stores
 		React.withContext({
