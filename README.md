@@ -101,7 +101,7 @@ The production setting builds two configurations: one for the client (`build/pub
 
 ## Build visualization
 
-After a production build you may want to visualize you modules and chunks tree.
+After a production build you may want to visualize your modules and chunks tree.
 
 Use the [analyse tool](http://webpack.github.io/analyse/) with the file at `build/stats.json`.
 
