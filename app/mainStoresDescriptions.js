@@ -44,7 +44,7 @@ module.exports = {
 	Router: {
 		local: true,
 		readSingleItem: function(item, callback) {
-			callback(null, item.oldData);
+			callback(null, item.oldData || null);
 		}
 	},
 	
