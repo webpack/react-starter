@@ -6,8 +6,8 @@ var joinEntry = require("./config/joinEntry");
 
 module.exports = function(options) {
 	var entry = {
-		main: reactEntry("main")
-		// second: reactEntry("Second")
+		main: reactEntry("main"),
+		// second: reactEntry("second")
 	};
 	var loaders = {
 		"coffee": "coffee-redux-loader",
