@@ -15,11 +15,13 @@ var TodoList = React.createClass({
 				items: list && list.map(function(item) {
 					if(typeof item === "string")
 						return stores.TodoItem.getItem(item);
-				}.bind(this))
+				}.bind(this)),
+				// get more info about the item
+				info: stores.TodoList.getItemInfo(params.list)
 			};
 		},
 	},
-	getAdditionalInitialState: function() {
+	getInitialState: function() {
 		return {
 			newItem: ""
 		};
@@ -28,19 +30,29 @@ var TodoList = React.createClass({
 		var id = this.state.id;
 		var list = this.state.list;
 		var items = this.state.items;
+		var info = this.state.info;
 		return <div>
 			<h2>Todolist</h2>
 			<Link to="home">Home</Link>
-			<ul>
 			{
-				list && list.map(function(item, idx) {
+				info.error ? <div><strong>{info.error.message}</strong></div> :
+				info.available ? this.renderItemsView(id, list, items) :
+				<div>Fetching from server...</div>
+			}
+		</div>;
+	},
+	renderItemsView: function(id, list, items) {
+		return <ul>
+			{
+				list.map(function(item, idx) {
 					if(typeof item === "string") {
 						return <li key={item}><Link to="todoitem" params={{item: item}}>
 							{items[idx] ? items[idx].text : ""}
 						</Link></li>;
 					} else {
+						// While adding item
 						return <li key={item}>
-							{item.text}
+							{item.text} &uarr;
 						</li>;
 					}
 				})
@@ -56,8 +68,7 @@ var TodoList = React.createClass({
 					this.setState({newItem: ""});
 				}.bind(this)}>Add</button>
 			</li>
-			</ul>
-		</div>;
+		</ul>;
 	}
 });
 module.exports = TodoList;

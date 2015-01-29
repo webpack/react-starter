@@ -47,7 +47,7 @@ module.exports = {
 			callback(null, item.oldData || null);
 		}
 	},
-	
+
 	// stores TodoLists
 	// changes are react style updates
 	TodoList: {
@@ -57,5 +57,12 @@ module.exports = {
 
 	// stores TodoItems
 	// changes are in the default format
-	TodoItem: {}
+	// errors result in artifical error items
+	TodoItem: {
+		applyNewError: function(oldData, error) {
+			return {
+				error: error.message
+			};
+		}
+	}
 }

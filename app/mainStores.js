@@ -20,6 +20,8 @@ function writeAndReadSingleItem(path, resultHandler) {
 			.send(options.update)
 			.end(batchedCallback(function(err, res) {
 				if(err) return callback(err);
+				if(res.status !== 200)
+					return callback(new Error("Request failed with " + res.status + ": " + res.text));
 				callback(null, resultHandler(res.body));
 			}));
 	}
@@ -33,6 +35,8 @@ function readSingleItem(path, resultHandler) {
 			.type("json")
 			.end(batchedCallback(function(err, res) {
 				if(err) return callback(err);
+				if(res.status !== 200)
+					return callback(new Error("Request failed with " + res.status + ": " + res.text));
 				callback(null, resultHandler(res.body));
 			}));
 	}
@@ -48,6 +52,8 @@ function readMultipleItems(path, resultHandler) {
 			.type("json")
 			.end(batchedCallback(function(err, res) {
 				if(err) return callback(err);
+				if(res.status !== 200)
+					return callback(new Error("Request failed with " + res.status + ": " + res.text));
 				callback(null, resultHandler(res.body));
 			}));
 	}
@@ -73,7 +79,7 @@ var stores = module.exports = {
 	TodoList: new ItemsStore(Object.assign({
 		// REST API at "/_/list/"
 		// the API also returns "TodoItem"s for requests
-		
+
 		writeAndReadSingleItem: writeAndReadSingleItem("/_/list/", function(result) {
 			Object.keys(result.items).forEach(function(key) {
 				stores.TodoItem.setItemData(key.substr(1), result.items[key]);
@@ -93,7 +99,7 @@ var stores = module.exports = {
 	TodoItem: new ItemsStore(Object.assign({
 		// REST API at "/_/todo"
 		// it supports reading up to 10 items at once
-		
+
 		writeAndReadSingleItem: writeAndReadSingleItem("/_/todo/"),
 		readSingleItem: readSingleItem("/_/todo/"),
 		readMultipleItems: readMultipleItems("/_/todo/"),
@@ -114,4 +120,8 @@ actions.Todo.add.listen(function(list, item) {
 
 actions.Todo.update.listen(function(id, update) {
 	stores.TodoItem.updateItem(id, update);
+});
+
+actions.Todo.reload.listen(function(id) {
+	stores.TodoItem.update(id);
 });

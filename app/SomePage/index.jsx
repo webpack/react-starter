@@ -6,7 +6,7 @@ var SomePage = React.createClass({
 		return <div>
 			<h2>SomePage</h2>
 			<Link to="home">Home</Link>
-			<p>This is just some page...</p>
+			<p>This is just some page... (loaded on demand)</p>
 		</div>;
 	}
 });
