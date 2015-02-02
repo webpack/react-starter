@@ -50,9 +50,9 @@ http://localhost:8080/
 
 The configuration is `webpack-dev-server.config.js`.
 
-Static HTML is served from `config/dev-server-public`.
-
 It automatically recompiles and refreshes the page when files are changed.
+
+Also check the [webpack-dev-server documentation](http://webpack.github.io/docs/webpack-dev-server.html).
 
 
 ## Hot Module Replacement development server
@@ -71,8 +71,6 @@ http://localhost:8080/
 ```
 
 The configuration is `webpack-hot-dev-server.config.js`.
-
-Static HTML is served from `config/dev-server-public`.
 
 It automatically recompiles when files are changed. When a hot-replacement-enabled file is changed (i. e. stylesheets or React components) the module is hot-replaced. If Hot Replacement is not possible the page is refreshed.
 
@@ -99,6 +97,11 @@ The server is at `lib/server.js`
 The production setting builds two configurations: one for the client (`build/public`) and one for the serverside prerendering (`build/prerender`).
 
 
+## Legacy static assets
+
+Asserts in `public` are also served.
+
+
 ## Build visualization
 
 After a production build you may want to visualize your modules and chunks tree.
@@ -118,9 +121,9 @@ Many file types are preconfigured, but not every loader is installed. If you get
 (for a multi page app)
 
 1. Add an entry point to `make-webpack-config.js` (`var entry`).
-2. Add a new top-level react component in `app`.
+2. Add a new top-level react component in `app` (`xxxRoutes.js`, `xxxStoreDescriptions.js`, `xxxStores.js`).
 3. (Optional) Enable `commonsChunk` in `webpack-production.config.js` and add `<script src="COMMONS_URL"></script>` to `app/prerender.html`.
-4. Add a new HTML file in `config/dev-server-public` that references the new output file.
+4. Modify the server code to require, serve and prerender the other entry point.
 5. Restart compilation.
 
 ### Switch devtool to SourceMaps
@@ -141,6 +144,6 @@ SourceMaps contains your unminimized source code, so you need to restrict access
 
 ## License
 
-Copyright (c) 2012-2014 Tobias Koppers [![Gittip donate button](http://img.shields.io/gittip/sokra.png)](https://www.gittip.com/sokra/)
+Copyright (c) 2012-2015 Tobias Koppers [![Gittip donate button](http://img.shields.io/gittip/sokra.png)](https://www.gittip.com/sokra/)
 
 MIT (http://www.opensource.org/licenses/mit-license.php)
