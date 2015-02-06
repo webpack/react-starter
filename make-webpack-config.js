@@ -24,14 +24,14 @@ module.exports = function(options) {
 		"ttf|eot": "file-loader",
 		"wav|mp3": "file-loader",
 		"html": "html-loader",
-		"md|markdown": ["html-loader", "markdown-loader"],
+		"md|markdown": ["html-loader", "markdown-loader"]
 	};
 	var stylesheetLoaders = {
 		"css": "css-loader",
 		"less": "css-loader!less-loader",
 		"styl": "css-loader!stylus-loader",
-		"sass": "css-loader!sass-loader",
-	}
+		"sass": "css-loader!sass-loader"
+	};
 	var additionalLoaders = [
 		// { test: /some-reg-exp$/, loader: "any-loader" }
 	];
@@ -57,7 +57,7 @@ module.exports = function(options) {
 		chunkFilename: (options.devServer ? "[id].js" : "[name].js") + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
 		sourceMapFilename: "debugging/[file].map",
 		libraryTarget: options.prerender ? "commonjs2" : undefined,
-		pathinfo: options.debug,
+		pathinfo: options.debug
 	};
 	var excludeFromStats = [
 		/node_modules[\\\/]react(-router)?[\\\/]/,
@@ -142,7 +142,7 @@ module.exports = function(options) {
 			root: root,
 			modulesDirectories: modulesDirectories,
 			extensions: extensions,
-			alias: alias,
+			alias: alias
 		},
 		plugins: plugins,
 		devServer: {
