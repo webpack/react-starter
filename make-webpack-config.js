@@ -109,7 +109,7 @@ module.exports = function(options) {
 		}
 	});
 	if(options.separateStylesheet && !options.prerender) {
-		plugins.push(new ExtractTextPlugin("[name].css" + (options.longTermCaching ? "?[chunkhash]" : "")));
+		plugins.push(new ExtractTextPlugin("[name].css" + (options.longTermCaching ? "?[contenthash]" : "")));
 	}
 	if(options.minimize) {
 		plugins.push(
