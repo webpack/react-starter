@@ -99,7 +99,7 @@ The production setting builds two configurations: one for the client (`build/pub
 
 ## Legacy static assets
 
-Asserts in `public` are also served.
+Assets in `public` are also served.
 
 
 ## Build visualization
