@@ -13,6 +13,7 @@ module.exports = (
 		<Route name="some-page" path="/some-page" handler={require("react-proxy!./SomePage")} />
 		<Route name="todolist" path="/:list" handler={require("./TodoList")} />
 		<Route name="todoitem" path="/todo/:item" handler={require("./TodoItem")} />
-		<DefaultRoute name="home" handler={require("./Home")} />
+		<Route name="home" path="/home" handler={require("./Home")} />
+		<DefaultRoute handler={require("./Home")} />
 	</Route>
 );
