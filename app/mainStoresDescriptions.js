@@ -52,7 +52,7 @@ module.exports = {
 	// changes are react style updates
 	TodoList: {
 		applyUpdate: require("react/lib/update"),
-		mergeUpdates: mergeUpdates,
+		mergeUpdates: mergeUpdates
 	},
 
 	// stores TodoItems

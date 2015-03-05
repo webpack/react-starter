@@ -19,7 +19,7 @@ var TodoList = React.createClass({
 				// get more info about the item
 				info: stores.TodoList.getItemInfo(params.list)
 			};
-		},
+		}
 	},
 	getInitialState: function() {
 		return {

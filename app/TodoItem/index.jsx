@@ -16,7 +16,7 @@ var TodoItem = React.createClass({
 				// i. e. updated, outdated, error
 				info: stores.TodoItem.getItemInfo(params.item)
 			};
-		},
+		}
 	},
 	render: function() {
 		var id = this.state.id;
