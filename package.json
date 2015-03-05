@@ -32,6 +32,7 @@
     "jsx-loader": "^0.12.0",
     "less": "^2.1.2",
     "less-loader": "^2.0.0",
+    "markdown-loader": "^0.1.2",
     "null-loader": "^0.1.0",
     "react": "^0.12.1",
     "react-hot-loader": "^1.0.0",
