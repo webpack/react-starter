@@ -12,7 +12,7 @@ var Application = React.createClass({
 			return {
 				loading: !!transition
 			};
-		},
+		}
 	},
 	render: function() {
 		return <div className={this.state.loading ? "application loading" : "application"}>
