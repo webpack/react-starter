@@ -140,6 +140,13 @@ SourceMaps have a performance impact on compilation.
 
 SourceMaps contains your unminimized source code, so you need to restrict access to `build\public\debugging`.
 
+### Coffeescript
+
+Coffeescript is not installed/enabled by default to not distrub non-coffee developer, but you can install it easily:
+
+1. `npm install coffee-redux-loader --save`
+2. In `make-webpack-config.js` add `".coffee"` to the `var extensions = ...` line.
+
 
 ## License
 
