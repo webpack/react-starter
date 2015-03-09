@@ -22,7 +22,6 @@ Starter template for react and webpack.
   * Minimized CSS and javascript
 * Also supports coffee-script files if you are more a coffee-script person.
 * You can also require markdown or text files for your content.
-* Just require the files...
 
 ## Installation
 
