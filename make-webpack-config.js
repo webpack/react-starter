@@ -147,6 +147,7 @@ module.exports = function(options) {
 		plugins: plugins,
 		devServer: {
 			stats: {
+				cached: false,
 				exclude: excludeFromStats
 			}
 		}
