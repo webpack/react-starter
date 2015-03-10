@@ -1,5 +1,5 @@
 var React = require("react");
-var ListMenu = require("./ListMenu.jsx");
+var ListMenu = require("./TodolistMenu.jsx");
 
 var TodoPage = React.createClass({
 	render: function() {
