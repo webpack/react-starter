@@ -37,7 +37,7 @@ var TodoItem = React.createClass({
 			</div>;
 		}
 		return <div>
-			<h2>Todoitem "{item.text}"</h2>
+			<h3>Todoitem "{item.text}"</h3>
 			<p><input type="text" value={item.text} onChange={function(event) {
 				Todo.update(id, {
 					text: event.target.value
