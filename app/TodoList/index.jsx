@@ -32,8 +32,7 @@ var TodoList = React.createClass({
 		var items = this.state.items;
 		var info = this.state.info;
 		return <div>
-			<h2>Todolist</h2>
-			<Link to="home">Home</Link>
+			<h2>Todolist: {id}</h2>
 			{
 				info.error ? <div><strong>{info.error.message}</strong></div> :
 				info.available ? this.renderItemsView(id, list, items) :
