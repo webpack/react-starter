@@ -1,5 +1,8 @@
 # How Stuff Works
-At first sight, it may not be immediately clear why/how certain things are called/triggered. The below explanation points you in the right direction, so you can research further.
+This documentation is for grasping the overall design. No details by intention. To get up and running quickly see `/README.md`.
+
+At first sight, it may not be immediately clear why/how certain things are called/triggered.
+The below explanation points you in the right direction, so you can research further.
 
 
 ## How the app is served.
