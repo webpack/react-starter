@@ -3,7 +3,7 @@ At first sight, it may not be immediately clear why/how certain things are calle
 
 
 ## How the app is served.
-A JS webserver is included.
+A JS webserver is included. It can be run in two modes:
 
 ### development mode
 Run the server using `npm start-dev`.
@@ -18,7 +18,7 @@ It wil use `/lib/server-production.js` it wil use `/lib/server.js` which wil use
 
 ## How a page updates while you are programming.
 After running the app webserver in development mode (see above) you'd have to manually reload the page after changing a JSX file.
-It is possible to automatically reload or update the page to reflect your changes, within a second.
+It is possible to automatically reload _or_ update the page to reflect your changes:
 
 ### page reloading
 Ensure that you are running the app webserver in development mode.
@@ -35,7 +35,12 @@ Note this is experimental, and in some cases you'll need to refresh manually.
 
 
 ## How the routes work.
-todo
+After opening the app and going to some page, there is no actual HTML loaded from the server. The React app just replaces a component.
+But you'd like to have the URL reflect this, and allow user to use browser history (back/forward). A router takes care of these things.
+
+In this case, the root of your app is not the Application React component.
+This starts at `/lib/server.js` which wil use `/config/app.jsx` which instantiates the router and ultimately uses `/app/mainRoutes.jsx` to load routes.
+You'll find that all pages are subroutes within the `app` route, which instantiates `/app/Application/index.jsx`, which contains a `RouteHander` component that inserts subroute output.
 
 
 ## How the stores work.
