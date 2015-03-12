@@ -3,7 +3,9 @@ This documentation is for grasping the overall design. No details by intention. 
 
 At first sight, it may not be immediately clear why/how certain things are called/triggered.
 The below explanation points you in the right direction, so you can research further.
+Some (inconspicuously) used/relevant node modules are explicitly mentioned with package name.
 
+*****
 
 ## How the app is served.
 A JS webserver is included in the form of `/lib/server.js`. It can be run in two modes:
@@ -46,7 +48,7 @@ Note this is experimental, and in some cases you'll need to refresh manually.
 
 ## How the routes work.
 After opening the app and going to some page, there is no actual HTML loaded from the server. The React app just replaces a component.
-But you'd like to have the URL reflect this, and allow user to use browser history (back/forward). A router takes care of these things.
+But you'd like to have the URL reflect this, and allow user to use browser history (back/forward). A router takes care of these things. (package react-router)
 
 In this case, the root of your app is not the Application React component.
 This starts at `/lib/server.js` which wil use `/config/app.jsx` which instantiates the router and ultimately uses `/app/mainRoutes.jsx` to load routes.
@@ -55,20 +57,28 @@ You'll find that all pages are subroutes within the `app` route, which instantia
 
 ## How the server JSON API works.
 The `/lib/server.js` serves the application, but it also serves the API URLs that the stores talk with.
-It initializes two databases once (one per todo list), and then continues to listen for GET/POST requests on specific URLs.
+It initializes two databases (todolist and todoitem) once, and then continues to listen for GET/POST requests on specific URLs.
 
 
 ## How the stores work.
-todo
+As in Flux; the Stores affect the React components. (package items-store)
+
+todo :question: this section needs review and should be extended.
 
 Note on `Application.update()`: normally components should not access the stores except for reading in `getState()`. Everything else should be done with actions.
 
 
 ## How the actions work.
-todo
+As in Flux; the Actions affect the stores. (package items-store)
+
+The actions are setup in `/app/mainStores.js` (bottom) from `/app/actions.js`, and triggered by the input fields in components, such as `/app/TodoPage/TodoList/index.jsx`.
+
+The two stores (todolist and todoitem) are implemented in `/app/mainStores.js` and both based on `/app/mainStoresDescriptions.js` and both extended with the same custom client HTTP agent (package superagent) routines. 
+
+todo :question: this section needs review and should be extended.
 
 
 ## How the 'Random fail!' works.
-This [Chaos Monkey](https://gigaom.com/2012/07/30/netflix-open-sources-cloud-testing-chaos-monkey/) lives in `/lib/server.js` and helps you experience realistic server-client retrieval times and errors while developing.
+This [Chaos Monkey](https://github.com/Netflix/SimianArmy/wiki) lives in `/lib/server.js` and helps you experience realistic server-client retrieval times and errors while developing.
 At some time your application is requesting 3 things from the server, and they return in the wrong order and incomplete. Wil it break?
 Or a form could not be sent to the server. Wil it notify the user?
