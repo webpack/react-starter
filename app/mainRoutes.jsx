@@ -12,7 +12,7 @@ module.exports = (
 	<Route name="app" path="/" handler={require("./Application")}>
 		<Route name="some-page" path="/some-page" handler={require("react-proxy!./SomePage")} />
 		<Route name="readme" path="/readme" handler={require("react-proxy!./Readme")} />
-		<Route name="todo" path="/todo" handler={require("react-proxy!./TodoPage")} >
+		<Route name="todo" path="/todo" handler={require("./TodoPage")} >
 			<Route name="todolist" path="list/:list" handler={require("./TodoPage/TodoList")} />
 			<Route name="todoitem" path="item/:item" handler={require("./TodoPage/TodoItem")} />
 		</Route>
