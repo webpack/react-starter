@@ -23,6 +23,8 @@ In your browser the main `React.render(<Application />, document.getElementById(
 But when prerendering, the main `React.renderToString(<Application />)` call (in `/app/prerender.jsx`) outputs to a string, which is inserted into the HTML (including React component states) as content.
 The browser now can show the HTML instantly in the DOM, but proceeds to run the React JS that resumes the usual DOM mutations.
 
+Note: Routes that use `react-proxy!` can not be prerendered.
+
 
 ## How a page updates while you are programming.
 After running the app webserver in development mode (see above) you'd have to manually reload the page after changing a JSX file.
@@ -51,7 +53,18 @@ This starts at `/lib/server.js` which wil use `/config/app.jsx` which instantiat
 You'll find that all pages are subroutes within the `app` route, which instantiates `/app/Application/index.jsx`, which contains a `RouteHander` component that inserts subroute output.
 
 
+## How the server JSON API works.
+The `/lib/server.js` serves the application, but it also serves the API URLs that the stores talk with.
+It initializes two databases once (one per todo list), and then continues to listen for GET/POST requests on specific URLs.
+
+
 ## How the stores work.
+todo
+
+Note on `Application.update()`: normally components should not access the stores except for reading in `getState()`. Everything else should be done with actions.
+
+
+## How the actions work.
 todo
 
 
@@ -59,8 +72,3 @@ todo
 This [Chaos Monkey](https://gigaom.com/2012/07/30/netflix-open-sources-cloud-testing-chaos-monkey/) lives in `/lib/server.js` and helps you experience realistic server-client retrieval times and errors while developing.
 At some time your application is requesting 3 things from the server, and they return in the wrong order and incomplete. Wil it break?
 Or a form could not be sent to the server. Wil it notify the user?
-
-
-## How the server JSON API works.
-The `/lib/server.js` serves the application, but it also serves the API URLs that the stores talk with.
-It initializes two databases once (one per todo list), and then continues to listen for GET/POST requests on specific URLs.
