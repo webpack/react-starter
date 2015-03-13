@@ -82,3 +82,15 @@ todo :question: this section needs review and should be extended.
 This [Chaos Monkey](https://github.com/Netflix/SimianArmy/wiki) lives in `/lib/server.js` and helps you experience realistic server-client retrieval times and errors while developing.
 At some time your application is requesting 3 things from the server, and they return in the wrong order and incomplete. Wil it break?
 Or a form could not be sent to the server. Wil it notify the user?
+
+
+## How the build works.
+A build can compile your JS files into one big file, while applying some optimisations (to make it smaller, faster, or obfuscated).
+Its also used to add files and features (otherwise not supported by JS in the browser) to your project, such as `JSX`, `markdown`, or `SASS`.
+
+When you start run a dev-server (like `npm run dev-server` or `npm run hot-dev-server`) it does the builds for you, while it watches for changing files.
+Or you can manually do a normal build using the `npm run build`. Note: these `npm run` scripts are defined in `/package.json`.
+
+Depending on what way you used to do this build, a different build configuration is used. For example the normal build script as seen in `/package.json` starts webpack with custom config `/webpack-production.config.js` which uses shared config `/make-webpack-config.js`.
+Most webpack configuration is in that shared config file, per entry. Only one main entry is defined. Prerendering happens depending on the custom config.
+This is where a lot of node modules (packages) come into play: loaders add JSX support, debug options are set, and the output is set to `/build/` is set.
