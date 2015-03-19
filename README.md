@@ -23,7 +23,9 @@ Starter template for react and webpack.
 * Also supports coffee-script files if you are more a coffee-script person.
 * You can also require markdown or text files for your content.
 
-## Installation
+## Local Installation
+
+Install [node.js](https://nodejs.org) or [io.js](https://iojs.org)
 
 Just clone this repo and change the `origin` git remote.
 
@@ -31,6 +33,15 @@ Just clone this repo and change the `origin` git remote.
 npm install
 ```
 
+## Installation via Vagrant
+
+Install [vagrant](https://vagrantup.com)
+
+``` text
+vagrant up
+vagrant ssh
+cd /vagrant
+```
 
 ## Development server
 
