@@ -15,8 +15,7 @@ module.exports = function(options) {
 		"json": "json-loader",
 		"js": {
 			loader: "babel-loader",
-			include: path.join(__dirname, "app"),
-            exclude: /node_modules/
+			include: path.join(__dirname, "app")
 		},
 		"json5": "json5-loader",
 		"txt": "raw-loader",
