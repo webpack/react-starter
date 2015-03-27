@@ -2,12 +2,23 @@
 This documentation is for grasping the overall design. No details by intention. To get up and running quickly see `/README.md`.
 
 At first sight, it may not be immediately clear why/how certain things are called/triggered.
-The below explanation points you in the right direction, so you can research further.
+The below explanation points you in the right direction, so you can research further. If you want more details or documentation, see the relevant package.
 Some (inconspicuously) used/relevant node modules are explicitly mentioned with package name.
+
+## Table of contents
+
+  * [How the app is served](#how-the-app-is-served)
+  * [How the page updates while you are programming.](#how-the-page-updates-while-you-are-programming)
+  * [How the routes work.](#how-the-routes-work)
+  * [How the server JSON API works.](#how-the-server-json-api-works)
+  * [How the stores work.](#how-the-stores-work)
+  * [How the actions work.](#how-the-actions-work)
+  * [How the 'Random fail!' works.](#how-the-random-fail-works)
+  * [How the build works.](#how-the-build-works)
 
 *****
 
-## How the app is served.
+## How the app is served
 A JS webserver is included in the form of `/lib/server.js`. It can be run in two modes:
 
 ### development mode
@@ -28,7 +39,7 @@ The browser now can show the HTML instantly in the DOM, but proceeds to run the 
 Note: Routes that use `react-proxy!` can not be prerendered.
 
 
-## How a page updates while you are programming.
+## How the page updates while you are programming.
 After running the app webserver in development mode (see above) you'd have to manually reload the page after changing a JSX file.
 It is possible to automatically reload _or_ update the page to reflect your changes:
 
