@@ -2,7 +2,7 @@ var React = require("react");
 var State = require("react-router").State;
 var Link = require("react-router").Link;
 var StateFromStoreMixin = require("items-store/StateFromStoresMixin");
-var Todo = require("../actions").Todo;
+var Todo = require("./../../actions").Todo;
 
 var TodoItem = React.createClass({
 	mixins: [State, StateFromStoreMixin],
@@ -37,7 +37,7 @@ var TodoItem = React.createClass({
 			</div>;
 		}
 		return <div>
-			<h2>Todoitem "{item.text}"</h2>
+			<h3>Todoitem "{item.text}"</h3>
 			<p><input type="text" value={item.text} onChange={function(event) {
 				Todo.update(id, {
 					text: event.target.value

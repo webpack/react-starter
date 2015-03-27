@@ -1,6 +1,7 @@
 var React = require("react");
 var StateFromStoreMixin = require("items-store/StateFromStoresMixin");
 var RouteHandler = require("react-router").RouteHandler;
+var MainMenu = require("./MainMenu.jsx");
 
 require("./style.css");
 
@@ -18,7 +19,8 @@ var Application = React.createClass({
 		return <div className={this.state.loading ? "application loading" : "application"}>
 			{this.state.loading ? <div style={{float: "right"}}>loading...</div> : null}
 			<h1>react-starter</h1>
-			<button onClick={this.update}>Update data</button>
+			<MainMenu />
+			<button onClick={this.update}>Update todolist data</button>
 			<RouteHandler />
 		</div>;
 	},

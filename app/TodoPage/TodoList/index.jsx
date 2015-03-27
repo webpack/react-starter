@@ -2,7 +2,7 @@ var React = require("react");
 var State = require("react-router").State;
 var Link = require("react-router").Link;
 var StateFromStoreMixin = require("items-store/StateFromStoresMixin");
-var Todo = require("../actions").Todo;
+var Todo = require("./../../actions").Todo;
 
 var TodoList = React.createClass({
 	mixins: [State, StateFromStoreMixin],
@@ -32,8 +32,7 @@ var TodoList = React.createClass({
 		var items = this.state.items;
 		var info = this.state.info;
 		return <div>
-			<h2>Todolist</h2>
-			<Link to="home">Home</Link>
+			<h3>Todolist: {id}</h3>
 			{
 				info.error ? <div><strong>{info.error.message}</strong></div> :
 				info.available ? this.renderItemsView(id, list, items) :
