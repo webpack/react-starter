@@ -47,7 +47,7 @@ Note this is experimental, and in some cases you'll need to refresh manually.
 
 
 ## How the routes work.
-After opening the app and going to some page, there is no actual HTML loaded from the server. The React app just replaces a component.
+In React after opening the app and going to some page, there is no actual HTML loaded from the server. React app just replaces a component that acts as a page, including any child components.
 But you'd like to have the URL reflect this, and allow user to use browser history (back/forward). A router takes care of these things. (package react-router)
 
 In this case, the root of your app is not the Application React component.
@@ -61,11 +61,22 @@ It initializes two databases (todolist and todoitem) once, and then continues to
 
 
 ## How the stores work.
-As in Flux; the Stores affect the React components. (package items-store)
+As in Flux; the Stores affect the React components. (package items-store) And the stores talk to the JSON API. (package superagent)
+
+### Stores setup
+The stores are constructed as such: startpoint is `/config/app.jsx` which wil use `/app/mainStores.js`. This then:
+
+- defines routines to handle JSON API read/writes (package superagent), and 
+- sets up a queue that only allows one REST request at a time, and aggregates subsequent changes. 
+  These are then sent as one request.. :question:
+- and ultimately constructs the two respective `ItemStore` objects (based on `/app/mainStoresDescriptions.js`) to which it assigns these routines, queue, and the initial data. This initial data may have been inserted when `/app/prerender.html`.
+- These are then exported back to `/config/app.jsx`, along with a store named Router. This store just holds a `transition` value which is later read in `/Application/index.jsx` to show "loading...' in UI.
+
+### Stores in use
 
 todo :question: this section needs review and should be extended.
 
-Note on `Application.update()`: normally components should not access the stores except for reading in `getState()`. Everything else should be done with actions.
+Note on `Application.update()`: normally components should not access the stores except for reading in `getState()`, as demonstrated with the Router store. Everything else should be done with actions.
 
 
 ## How the actions work.
