@@ -19,6 +19,7 @@ Some (inconspicuously) used/relevant node modules are explicitly mentioned with 
     * [Stores setup](#stores-setup)
     * [Stores in use](#stores-in-use)
   * [How the actions work.](#how-the-actions-work)
+  * [How the server DB works.](#how-the-server-db-works)
   * [How the 'Random fail!' works.](#how-the-random-fail-works)
   * [How the build works.](#how-the-build-works)
   * [Q&A Why](#qa-why)
@@ -88,11 +89,13 @@ The stores are constructed as such: startpoint is `config/app.jsx` which wil use
 - defines routines to handle JSON API read/writes (package superagent), and 
 - sets up a queue that only allows one REST request at a time, and aggregates subsequent changes. 
   These are then sent as one request.. :question:
-- and ultimately constructs the two respective `ItemStore` objects (based on `app/mainStoresDescriptions.js`) to which it assigns these routines, queue, and the initial data. This initial data may have been inserted when `app/prerender.html`.
+- and ultimately constructs the two respective `ItemStore` objects (based on `app/mainStoresDescriptions.js`) to which it assigns these routines, queue, and the initial data. This initial data may have been inserted via `app/prerender.html` and `app/`.
 - These are then exported back to `config/app.jsx`, along with a store named `Router`.
 
 The store `Router` just holds a `transition` value which is later read in `Application/index.jsx` to show "loading..." in UI.
 The stores `TodoList` and `TodoItem` only have minor differences.
+
+If you wonder where the default data is inserted, see (#how-the-server-db-works).
 
 ### Stores in use
 
@@ -107,6 +110,12 @@ As in Flux; the Actions affect the stores. (package items-store)
 The actions are setup in `app/mainStores.js` (bottom) from `app/actions.js` which uses the implementation supplied with items-store.
 They are triggered/made :question: by the input fields in components, such as `app/TodoPage/TodoList/index.jsx`.
 They end up affecting a store. (how? :question:) See [How the stores work.](#how-the-stores-work)
+
+
+## How the server DB works
+When you run `npm run start-dev` (or without `-dev` ofcourse) this wil start the server database, as you can see defined in `package.json`. This lets node execute `lib/server-development.js` which uses `lib/server.js` where the default data is loaded, and a server (package express) is thrown together that responds to GET POST and DELETE.
+
+This (REST API with JSON data format) server is accessible via `http://localhost:8080/_/list/mylist` for example, and this is what the application uses to fetch data for the stores.
 
 
 ## How the 'Random fail!' works.
