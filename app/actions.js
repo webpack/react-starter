@@ -1,8 +1,8 @@
-var Actions = require("items-store/Actions");
+import { Actions } from "items-store";
 
 // All the actions of the application
 
-exports.Todo = Actions.create([
+export var Todo = Actions.create([
 	"add",
 	"update",
 	"reload"

@@ -1,6 +1,7 @@
 var path = require("path");
 var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var StatsPlugin = require("stats-webpack-plugin");
 var loadersByExtension = require("./config/loadersByExtension");
 var joinEntry = require("./config/joinEntry");
 
@@ -80,6 +81,10 @@ module.exports = function(options) {
 		new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment")
 	];
 	if(options.prerender) {
+		plugins.push(new StatsPlugin(path.join(__dirname, "build", "stats.json"), {
+			chunkModules: true,
+			exclude: excludeFromStats
+		}))
 		aliasLoader["react-proxy$"] = "react-proxy/unavailable";
 		externals.push(
 			/^react(\/.*)?$/,
@@ -92,6 +97,13 @@ module.exports = function(options) {
 	if(options.commonsChunk) {
 		plugins.push(new webpack.optimize.CommonsChunkPlugin("commons", "commons.js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : "")));
 	}
+	var asyncLoader = {
+		test: require("./app/routeHandlers/async").map(function(name) {
+			return path.join(__dirname, "app", "routeHandlers", name);
+		}),
+		loader: "react-proxy-loader"
+	};
+
 
 
 	function reactEntry(name) {
@@ -129,7 +141,7 @@ module.exports = function(options) {
 		output: output,
 		target: options.prerender ? "node" : "web",
 		module: {
-			loaders: loadersByExtension(loaders).concat(loadersByExtension(stylesheetLoaders))
+			loaders: [asyncLoader].concat(loadersByExtension(loaders)).concat(loadersByExtension(stylesheetLoaders)).concat(additionalLoaders)
 		},
 		devtool: options.devtool,
 		debug: options.debug,
