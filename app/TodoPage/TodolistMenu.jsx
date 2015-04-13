@@ -1,8 +1,8 @@
-var React = require("react");
-var Link = require("react-router").Link;
+import React from 'react';
+import Link from 'react-router';
 
-var ListMenu = React.createClass({
-	render: function() {
+export default class ListMenu extends React.Component {
+	render() {
 		return <div>
 			<h2>Lists:</h2>
 			<ul>
@@ -11,6 +11,4 @@ var ListMenu = React.createClass({
 			</ul>
 		</div>;
 	}
-});
-
-module.exports = ListMenu;
+}

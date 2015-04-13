@@ -1,11 +1,10 @@
-var React = require("react");
+import React from "react";
 
-var SomePage = React.createClass({
-	render: function() {
+export default class SomePage extends React.Component {
+	render() {
 		return <div>
 			<h2>SomePage</h2>
 			<p>This is just some page... (loaded on demand)</p>
 		</div>;
 	}
-});
-module.exports = SomePage;
+}
