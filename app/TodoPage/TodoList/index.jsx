@@ -8,6 +8,7 @@ var TodoList = React.createClass({
 	mixins: [State, StateFromStoreMixin],
 	statics: {
 		getState: function(stores, params) {
+			if (!params) return {};
 			var list = stores.TodoList.getItem(params.list);
 			return {
 				id: params.list,
