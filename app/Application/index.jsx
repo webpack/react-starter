@@ -1,15 +1,15 @@
-var React = require("react");
-var StateFromStoreMixin = require("items-store/StateFromStoresMixin");
-var RouteHandler = require("react-router").RouteHandler;
-var MainMenu = require("./MainMenu.jsx");
+let React = require("react");
+let StateFromStoreMixin = require("items-store/StateFromStoresMixin");
+let RouteHandler = require("react-router").RouteHandler;
+let MainMenu = require("./MainMenu.jsx");
 
 require("./style.css");
 
-var Application = React.createClass({
+let Application = React.createClass({
 	mixins: [StateFromStoreMixin],
 	statics: {
 		getState: function(stores, params) {
-			var transition = stores.Router.getItem("transition");
+			let transition = stores.Router.getItem("transition");
 			return {
 				loading: !!transition
 			};
@@ -25,7 +25,7 @@ var Application = React.createClass({
 		</div>;
 	},
 	update: function() {
-		var { stores } = this.context;
+		let { stores } = this.context;
 		Object.keys(stores).forEach(function(key) {
 			stores[key].update();
 		});

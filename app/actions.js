@@ -1,4 +1,4 @@
-var Actions = require("items-store/Actions");
+let Actions = require("items-store/Actions");
 
 // All the actions of the application
 

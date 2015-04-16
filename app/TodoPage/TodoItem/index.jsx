@@ -1,10 +1,9 @@
-var React = require("react");
-var State = require("react-router").State;
-var Link = require("react-router").Link;
-var StateFromStoreMixin = require("items-store/StateFromStoresMixin");
-var Todo = require("./../../actions").Todo;
+let React = require("react");
+let {State, Link} = require("react-router");
+let StateFromStoreMixin = require("items-store/StateFromStoresMixin");
+let Todo = require("./../../actions").Todo;
 
-var TodoItem = React.createClass({
+let TodoItem = React.createClass({
 	mixins: [State, StateFromStoreMixin],
 	statics: {
 		getState: function(stores, params) {
@@ -19,9 +18,9 @@ var TodoItem = React.createClass({
 		}
 	},
 	render: function() {
-		var id = this.state.id;
-		var item = this.state.item;
-		var info = this.state.info;
+		let id = this.state.id;
+		let item = this.state.item;
+		let info = this.state.info;
 		// item is undefined on initial load
 		if(!item) {
 			return <div>Initial load from server...</div>

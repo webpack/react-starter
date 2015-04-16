@@ -1,14 +1,13 @@
-var React = require("react");
-var State = require("react-router").State;
-var Link = require("react-router").Link;
-var StateFromStoreMixin = require("items-store/StateFromStoresMixin");
-var Todo = require("./../../actions").Todo;
+let React = require("react");
+let {State, Link} = require("react-router");
+let StateFromStoreMixin = require("items-store/StateFromStoresMixin");
+let Todo = require("./../../actions").Todo;
 
-var TodoList = React.createClass({
+let TodoList = React.createClass({
 	mixins: [State, StateFromStoreMixin],
 	statics: {
 		getState: function(stores, params) {
-			var list = stores.TodoList.getItem(params.list);
+			let list = stores.TodoList.getItem(params.list);
 			return {
 				id: params.list,
 				list: list,
@@ -27,10 +26,10 @@ var TodoList = React.createClass({
 		};
 	},
 	render: function() {
-		var id = this.state.id;
-		var list = this.state.list;
-		var items = this.state.items;
-		var info = this.state.info;
+		let id = this.state.id;
+		let list = this.state.list;
+		let items = this.state.items;
+		let info = this.state.info;
 		return <div>
 			<h3>Todolist: {id}</h3>
 			{

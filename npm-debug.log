@@ -1,0 +1,35 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'run', 'dev-server' ]
+2 info using npm@2.7.4
+3 info using node@v0.12.2
+4 verbose run-script [ 'predev-server', 'dev-server', 'postdev-server' ]
+5 info predev-server react-starter@0.0.0
+6 info dev-server react-starter@0.0.0
+7 verbose unsafe-perm in lifecycle true
+8 info react-starter@0.0.0 Failed to exec dev-server script
+9 verbose stack Error: react-starter@0.0.0 dev-server: `webpack-dev-server --config webpack-dev-server.config.js --progress --colors --port 2992 --inline`
+9 verbose stack Exit status 1
+9 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:213:16)
+9 verbose stack     at EventEmitter.emit (events.js:110:17)
+9 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:14:12)
+9 verbose stack     at ChildProcess.emit (events.js:110:17)
+9 verbose stack     at maybeClose (child_process.js:1015:16)
+9 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1087:5)
+10 verbose pkgid react-starter@0.0.0
+11 verbose cwd /Users/htm/Documents/projects/react-starter
+12 error Darwin 14.3.0
+13 error argv "node" "/usr/local/bin/npm" "run" "dev-server"
+14 error node v0.12.2
+15 error npm  v2.7.4
+16 error code ELIFECYCLE
+17 error react-starter@0.0.0 dev-server: `webpack-dev-server --config webpack-dev-server.config.js --progress --colors --port 2992 --inline`
+17 error Exit status 1
+18 error Failed at the react-starter@0.0.0 dev-server script 'webpack-dev-server --config webpack-dev-server.config.js --progress --colors --port 2992 --inline'.
+18 error This is most likely a problem with the react-starter package,
+18 error not with npm itself.
+18 error Tell the author that this fails on your system:
+18 error     webpack-dev-server --config webpack-dev-server.config.js --progress --colors --port 2992 --inline
+18 error You can get their info via:
+18 error     npm owner ls react-starter
+18 error There is likely additional logging output above.
+19 verbose exit [ 1, true ]
