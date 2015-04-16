@@ -3,6 +3,7 @@ import { Link } from "react-router";
 
 export default class MainMenu extends React.Component {
 	render() {
+
 		return <div>
 			<h2>MainMenu:</h2>
 			<ul>

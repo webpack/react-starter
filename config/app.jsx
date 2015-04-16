@@ -7,7 +7,7 @@ import withTimeout from "./withTimeout";
 import ReactUpdates from "react/lib/ReactUpdates";
 import StoresWrapper from "./StoresWrapper";
 
-var initialRun = true;
+let initialRun = true;
 
 // react-router handles location
 Router.run(routes, Router.HistoryLocation, function(Application, state) {
