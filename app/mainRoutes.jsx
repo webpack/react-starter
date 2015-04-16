@@ -1,8 +1,5 @@
-var React = require("react");
-var Router = require("react-router");
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
-var NotFoundRoute = Router.NotFoundRoute;
+let React = require("react");
+let {Router, Route, DefaultRoute, NotFoundRoute} = require("react-router");
 
 // polyfill
 if(!Object.assign)

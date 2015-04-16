@@ -1,6 +1,6 @@
-var React = require("react");
+let React = require("react");
 
-var SomePage = React.createClass({
+let SomePage = React.createClass({
 	render: function() {
 		return <div>
 			<h2>SomePage</h2>

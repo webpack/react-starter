@@ -1,7 +1,7 @@
-var ItemsStore = require("items-store/ItemsStore");
-var async = require("async");
-var request = require("superagent");
-var ReactUpdates = require("react/lib/ReactUpdates");
+let ItemsStore = require("items-store/ItemsStore");
+let async = require("async");
+let request = require("superagent");
+let ReactUpdates = require("react/lib/ReactUpdates");
 
 // a few helper methods for a REST API
 

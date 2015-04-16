@@ -1,10 +1,10 @@
-var async = require("async");
-var React = require("react");
-var Router = require("react-router");
-var ItemsStore = require("items-store/ItemsStore");
-var routes = require("../app/" + __resourceQuery.substr(1) + "Routes");
-var storesDescriptions = require("../app/" + __resourceQuery.substr(1) + "StoresDescriptions");
-var html = require("../app/prerender.html");
+let async = require("async");
+let React = require("react");
+let Router = require("react-router");
+let ItemsStore = require("items-store/ItemsStore");
+let routes = require("../app/" + __resourceQuery.substr(1) + "Routes");
+let storesDescriptions = require("../app/" + __resourceQuery.substr(1) + "StoresDescriptions");
+let html = require("../app/prerender.html");
 
 // create stores for prerending
 // readItems contains async methods for fetching the data from database

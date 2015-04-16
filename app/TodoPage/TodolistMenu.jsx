@@ -1,7 +1,7 @@
-var React = require("react");
-var Link = require("react-router").Link;
+let React = require("react");
+let Link = require("react-router").Link;
 
-var ListMenu = React.createClass({
+let ListMenu = React.createClass({
 	render: function() {
 		return <div>
 			<h2>Lists:</h2>
