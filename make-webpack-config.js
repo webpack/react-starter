@@ -58,7 +58,7 @@ module.exports = function(options) {
 		chunkFilename: (options.devServer ? "[id].js" : "[name].js") + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
 		sourceMapFilename: "debugging/[file].map",
 		libraryTarget: options.prerender ? "commonjs2" : undefined,
-		pathinfo: options.debug
+		pathinfo: options.debug || options.prerender
 	};
 	var excludeFromStats = [
 		/node_modules[\\\/]react(-router)?[\\\/]/,
@@ -86,6 +86,7 @@ module.exports = function(options) {
 			exclude: excludeFromStats
 		}))
 		aliasLoader["react-proxy$"] = "react-proxy/unavailable";
+		aliasLoader["react-proxy-loader$"] = "react-proxy-loader/unavailable";
 		externals.push(
 			/^react(\/.*)?$/,
 			/^reflux(\/.*)?$/,
@@ -101,7 +102,7 @@ module.exports = function(options) {
 		test: require("./app/routeHandlers/async").map(function(name) {
 			return path.join(__dirname, "app", "routeHandlers", name);
 		}),
-		loader: "react-proxy-loader"
+		loader: options.prerender ? "react-proxy-loader/unavailable" : "react-proxy-loader"
 	};
 
 

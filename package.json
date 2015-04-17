@@ -44,7 +44,7 @@
     "superagent": "^1.1.0",
     "url-loader": "^0.5.5",
     "uuid": "^2.0.1",
-    "webpack": "^1.7.3",
+    "webpack": "^1.8.5",
     "webpack-dev-server": "^1.4.7"
   }
 }

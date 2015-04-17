@@ -35,7 +35,7 @@ module.exports = function(path, readItems, scriptUrl, styleUrl, commonsUrl, call
 		}, function() {
 
 			// prerender the application with the stores
-			return React.renderToString(<StoresWrapper Component={Application} stores={stores}/>);
+			var application = React.renderToString(<StoresWrapper Component={Application} stores={stores}/>);
 
 			// format the full page
 			callback(null, html
