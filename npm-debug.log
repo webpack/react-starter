@@ -1,0 +1,36 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'run', 'start-dev' ]
+2 info using npm@2.7.3
+3 info using node@v0.12.1
+4 verbose node symlink /usr/local/bin/node
+5 verbose run-script [ 'prestart-dev', 'start-dev', 'poststart-dev' ]
+6 info prestart-dev react-starter@0.0.0
+7 info start-dev react-starter@0.0.0
+8 verbose unsafe-perm in lifecycle true
+9 info react-starter@0.0.0 Failed to exec start-dev script
+10 verbose stack Error: react-starter@0.0.0 start-dev: `node lib/server-development`
+10 verbose stack Exit status 1
+10 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:213:16)
+10 verbose stack     at EventEmitter.emit (events.js:110:17)
+10 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:14:12)
+10 verbose stack     at ChildProcess.emit (events.js:110:17)
+10 verbose stack     at maybeClose (child_process.js:1008:16)
+10 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1080:5)
+11 verbose pkgid react-starter@0.0.0
+12 verbose cwd /Users/htm/Desktop/JS/React/react-starter
+13 error Darwin 14.3.0
+14 error argv "node" "/usr/local/bin/npm" "run" "start-dev"
+15 error node v0.12.1
+16 error npm  v2.7.3
+17 error code ELIFECYCLE
+18 error react-starter@0.0.0 start-dev: `node lib/server-development`
+18 error Exit status 1
+19 error Failed at the react-starter@0.0.0 start-dev script 'node lib/server-development'.
+19 error This is most likely a problem with the react-starter package,
+19 error not with npm itself.
+19 error Tell the author that this fails on your system:
+19 error     node lib/server-development
+19 error You can get their info via:
+19 error     npm owner ls react-starter
+19 error There is likely additional logging output above.
+20 verbose exit [ 1, true ]
