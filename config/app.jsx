@@ -1,10 +1,11 @@
-var async = require("async");
-var React = require("react");
-var Router = require("react-router");
+import async from "async";
+import React from "react";
+import Router from "react-router";
 var routes = require("../app/" + __resourceQuery.substr(1) + "Routes");
 var stores = require("../app/" + __resourceQuery.substr(1) + "Stores");
-var withTimeout = require("./withTimeout");
-var ReactUpdates = require("react/lib/ReactUpdates");
+import withTimeout from "./withTimeout";
+import ReactUpdates from "react/lib/ReactUpdates";
+import StoresWrapper from "./StoresWrapper";
 
 var initialRun = true;
 
@@ -39,10 +40,6 @@ Router.run(routes, Router.HistoryLocation, function(Application, state) {
 		});
 
 		// Render the components with the stores
-		React.withContext({
-			stores: stores
-		}, function() {
-			React.render(<Application />, document.getElementById("content"));
-		});
+		React.render(<StoresWrapper Component={Application} stores={stores}/>, document.getElementById("content"));
 	});
 });

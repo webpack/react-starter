@@ -1,10 +1,11 @@
-var async = require("async");
-var React = require("react");
-var Router = require("react-router");
-var ItemsStore = require("items-store/ItemsStore");
+import async from "async";
+import React from "react";
+import Router from "react-router";
+import { ItemsStore } from "items-store";
 var routes = require("../app/" + __resourceQuery.substr(1) + "Routes");
 var storesDescriptions = require("../app/" + __resourceQuery.substr(1) + "StoresDescriptions");
-var html = require("../app/prerender.html");
+import html from "../app/prerender.html";
+import StoresWrapper from "./StoresWrapper";
 
 // create stores for prerending
 // readItems contains async methods for fetching the data from database
@@ -34,11 +35,7 @@ module.exports = function(path, readItems, scriptUrl, styleUrl, commonsUrl, call
 		}, function() {
 
 			// prerender the application with the stores
-			var application = React.withContext({
-				stores: stores
-			}, function() {
-				return React.renderToString(<Application />);
-			});
+			var application = React.renderToString(<StoresWrapper Component={Application} stores={stores}/>);
 
 			// format the full page
 			callback(null, html

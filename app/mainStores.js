@@ -1,7 +1,7 @@
-var ItemsStore = require("items-store/ItemsStore");
-var async = require("async");
-var request = require("superagent");
-var ReactUpdates = require("react/lib/ReactUpdates");
+import ItemsStore from "items-store/ItemsStore";
+import async from "async";
+import request from "superagent";
+import ReactUpdates from "react/lib/ReactUpdates";
 
 // a few helper methods for a REST API
 
@@ -71,7 +71,7 @@ var queue = async.queue(function(fn, callback) {
 var initialData = typeof __StoreData === "object" ? __StoreData : {};
 
 // take the store descriptions as base
-var desc = require("./mainStoresDescriptions");
+import desc from "./mainStoresDescriptions";
 
 var stores = module.exports = {
 	Router: new ItemsStore(desc.Router),
@@ -112,16 +112,16 @@ var stores = module.exports = {
 
 // bind actions to stores
 
-var actions = require("./actions");
+import { Todo } from "./actions";
 
-actions.Todo.add.listen(function(list, item) {
+Todo.add.listen(function(list, item) {
 	stores.TodoList.updateItem(list, { $push: [item] });
 });
 
-actions.Todo.update.listen(function(id, update) {
+Todo.update.listen(function(id, update) {
 	stores.TodoItem.updateItem(id, update);
 });
 
-actions.Todo.reload.listen(function(id) {
+Todo.reload.listen(function(id) {
 	stores.TodoItem.update(id);
 });

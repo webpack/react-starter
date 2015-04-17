@@ -1,8 +1,14 @@
-var React = require("react");
-var Router = require("react-router");
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
-var NotFoundRoute = Router.NotFoundRoute;
+import React from "react";
+import { Route, DefaultRoute, NotFoundRoute } from "react-router";
+
+import Application  from "./routeHandlers/Application";
+import SomePage     from "./routeHandlers/SomePage";
+import ReadmePage   from "./routeHandlers/ReadmePage";
+import TodoPage     from "./routeHandlers/TodoPage";
+import TodoListPage from "./routeHandlers/TodoListPage";
+import TodoItemPage from "./routeHandlers/TodoItemPage";
+import HomePage     from "./routeHandlers/HomePage";
+import NotFoundPage from "./routeHandlers/NotFoundPage";
 
 // polyfill
 if(!Object.assign)
@@ -10,15 +16,15 @@ if(!Object.assign)
 
 // export routes
 module.exports = (
-	<Route name="app" path="/" handler={require("./Application")}>
-		<Route name="some-page" path="/some-page" handler={require("react-proxy!./SomePage")} />
-		<Route name="readme" path="/readme" handler={require("react-proxy!./Readme")} />
-		<Route name="todo" path="/todo" handler={require("./TodoPage")} >
-			<Route name="todolist" path="list/:list" handler={require("./TodoPage/TodoList")} />
-			<Route name="todoitem" path="item/:item" handler={require("./TodoPage/TodoItem")} />
+	<Route name="app" path="/" handler={Application}>
+		<Route name="some-page" path="/some-page" handler={SomePage} />
+		<Route name="readme" path="/readme" handler={ReadmePage} />
+		<Route name="todo" path="/todo" handler={TodoPage} >
+			<Route name="todolist" path="list/:list" handler={TodoListPage} />
+			<Route name="todoitem" path="item/:item" handler={TodoItemPage} />
 		</Route>
-		<Route name="home" path="/home" handler={require("./Home")} />
-		<DefaultRoute handler={require("./Home")} />
-		<NotFoundRoute handler={require("./NotFound")} />
+		<Route name="home" path="/home" handler={HomePage} />
+		<DefaultRoute handler={HomePage} />
+		<NotFoundRoute handler={NotFoundPage} />
 	</Route>
 );

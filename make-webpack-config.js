@@ -1,6 +1,7 @@
 var path = require("path");
 var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var StatsPlugin = require("stats-webpack-plugin");
 var loadersByExtension = require("./config/loadersByExtension");
 var joinEntry = require("./config/joinEntry");
 
@@ -57,7 +58,7 @@ module.exports = function(options) {
 		chunkFilename: (options.devServer ? "[id].js" : "[name].js") + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
 		sourceMapFilename: "debugging/[file].map",
 		libraryTarget: options.prerender ? "commonjs2" : undefined,
-		pathinfo: options.debug
+		pathinfo: options.debug || options.prerender
 	};
 	var excludeFromStats = [
 		/node_modules[\\\/]react(-router)?[\\\/]/,
@@ -80,7 +81,12 @@ module.exports = function(options) {
 		new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment")
 	];
 	if(options.prerender) {
+		plugins.push(new StatsPlugin(path.join(__dirname, "build", "stats.json"), {
+			chunkModules: true,
+			exclude: excludeFromStats
+		}))
 		aliasLoader["react-proxy$"] = "react-proxy/unavailable";
+		aliasLoader["react-proxy-loader$"] = "react-proxy-loader/unavailable";
 		externals.push(
 			/^react(\/.*)?$/,
 			/^reflux(\/.*)?$/,
@@ -92,6 +98,13 @@ module.exports = function(options) {
 	if(options.commonsChunk) {
 		plugins.push(new webpack.optimize.CommonsChunkPlugin("commons", "commons.js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : "")));
 	}
+	var asyncLoader = {
+		test: require("./app/routeHandlers/async").map(function(name) {
+			return path.join(__dirname, "app", "routeHandlers", name);
+		}),
+		loader: options.prerender ? "react-proxy-loader/unavailable" : "react-proxy-loader"
+	};
+
 
 
 	function reactEntry(name) {
@@ -129,7 +142,7 @@ module.exports = function(options) {
 		output: output,
 		target: options.prerender ? "node" : "web",
 		module: {
-			loaders: loadersByExtension(loaders).concat(loadersByExtension(stylesheetLoaders))
+			loaders: [asyncLoader].concat(loadersByExtension(loaders)).concat(loadersByExtension(stylesheetLoaders)).concat(additionalLoaders)
 		},
 		devtool: options.devtool,
 		debug: options.debug,
