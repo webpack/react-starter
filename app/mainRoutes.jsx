@@ -10,7 +10,6 @@ import TodoItemPage from "./routeHandlers/TodoItemPage";
 import HomePage     from "./routeHandlers/HomePage";
 import NotFoundPage from "./routeHandlers/NotFoundPage";
 
-
 // polyfill
 if(!Object.assign)
 	Object.assign = React.__spread;
