@@ -5,5 +5,6 @@ import { Actions } from "items-store";
 export var Todo = Actions.create([
 	"add",
 	"update",
-	"reload"
+	"reload",
+	"update"
 ]);

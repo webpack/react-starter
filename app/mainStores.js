@@ -125,3 +125,8 @@ Todo.update.listen(function(id, update) {
 Todo.reload.listen(function(id) {
 	stores.TodoItem.update(id);
 });
+
+Todo.update.listen(function(id) {
+	stores.TodoList.update();
+	stores.TodoItem.update();
+});

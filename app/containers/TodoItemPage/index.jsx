@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import Todo from "actions";
+import { Todo } from "actions";
 import TodoItemEditor from "components/TodoItemEditor";
 
 export default class TodoItemPage extends React.Component {

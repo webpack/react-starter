@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import Todo from "actions";
+import { Todo } from "actions";
 
 export default class TodoListPage extends React.Component {
 	static getProps(stores, params) {

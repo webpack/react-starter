@@ -1,6 +1,7 @@
 import React from "react";
 import { RouteHandler } from "react-router";
 import MainMenu from "components/MainMenu";
+import { Todo as TodoActions } from "actions";
 
 import "./style.css";
 
@@ -22,10 +23,7 @@ export default class Application extends React.Component {
 		</div>;
 	}
 	update() {
-		var { stores } = this.context;
-		Object.keys(stores).forEach(function(key) {
-			stores[key].update();
-		});
+		TodoActions.update();
 	}
 }
 
