@@ -86,9 +86,9 @@ See [Q&A Why](#qa-why)
 ### Stores setup
 The stores are constructed as such: startpoint is `config/app.jsx` which wil use `app/mainStores.js`. This then:
 
-- defines routines to handle JSON API read/writes (package superagent), and 
-- sets up a queue that only allows one REST request at a time, and aggregates subsequent changes. 
-  These are then sent as one request.. :question:
+- defines routines to handle JSON API read/writes (package superagent), and
+- sets up a queue that only allows one REST request at a time, and aggregates subsequent changes.
+  These are then sent as one request..
 - and ultimately constructs the two respective `ItemStore` objects (based on `app/mainStoresDescriptions.js`) to which it assigns these routines, queue, and the initial data. This initial data may have been inserted via `app/prerender.html` and `app/`.
 - These are then exported back to `config/app.jsx`, along with a store named `Router`.
 
@@ -101,27 +101,27 @@ If you wonder where the default data is inserted, see (#how-the-server-db-works)
 
 todo :question: this section needs review and should be extended.
 
-Note on `Application.update()`: normally components should not access the stores except for reading in `getState()`, as demonstrated with the Router store. Everything else should be done with actions.
+Note: Components should not access the stores except for reading in `getState()`. Everything else should be done with actions.
 
 
 ## How the actions work.
-As in Flux; the Actions affect the stores. (package items-store)
+The Actions affect the stores. (package items-store)
 
 The actions are setup in `app/mainStores.js` (bottom) from `app/actions.js` which uses the implementation supplied with items-store.
-They are triggered/made :question: by the input fields in components, such as `app/TodoPage/TodoList/index.jsx`.
-They end up affecting a store. (how? :question:) See [How the stores work.](#how-the-stores-work)
+They are triggered/made by the input fields in components, such as `app/TodoPage/TodoList/index.jsx`.
+They end up affecting a store. See [How the stores work.](#how-the-stores-work)
 
 
 ## How the server DB works
-When you run `npm run start-dev` (or without `-dev` ofcourse) this wil start the server database, as you can see defined in `package.json`. This lets node execute `lib/server-development.js` which uses `lib/server.js` where the default data is loaded, and a server (package express) is thrown together that responds to GET POST and DELETE.
+When you run `npm run start-dev` (or without `-dev` ofcourse) this wil start the server, as you can see defined in `package.json`. This lets node execute `lib/server-development.js` which uses `lib/server.js` where the default data is loaded, and a server (package express) is thrown together that responds to GET POST and DELETE.
 
 This (REST API with JSON data format) server is accessible via `http://localhost:8080/_/list/mylist` for example, and this is what the application uses to fetch data for the stores.
 
 
 ## How the 'Random fail!' works.
 This [Chaos Monkey](https://github.com/Netflix/SimianArmy/wiki) lives in `lib/server.js` and helps you experience realistic server-client retrieval times and errors while developing.
-At some time your application is requesting 3 things from the server, and they return in the wrong order and incomplete. Wil it break?
-Or a form could not be sent to the server. Wil it notify the user?
+At some time your application is requesting 3 things from the server, and they return in the wrong order and incomplete. Will it break?
+Or a form could not be sent to the server. Will it notify the user?
 
 
 ## How the build works.
@@ -136,13 +136,13 @@ Most webpack configuration is in that shared config file, per entry. Only one ma
 This is where a lot of node modules (packages) come into play: loaders add JSX support, debug options are set, and the output is set to `build/` is set.
 
 # Q&A Why
-**Design choices explained.**  
+**Design choices explained.**
 Ok, so now you know the how. But why do it that way? Questions about design choices, answered by the author(s). (Tobias Koppers)
 
 **(interim, this document should only concern the How question) :exclamation: TODO extract Q&A info and document it.**
 
 What is the argument for using items-store? (from https://github.com/webpack/react-starter/pull/49 )
-> Q: What was the argument for using items-store?  
+> Q: What was the argument for using items-store?
 > A:
 >
 > I didn't want to write a new module. I actually tried using Reflux.js, but couldn't find a good workflow for prerendering, optimistic updates and merging of multiple writes. You could do it manually but that is something I would expect from a flux implementation. items-store is a very simple store base class that coordinate this behavior (the repo actually also contains a simple helper for actions and a react mixin, but these are theoretically independant and you don't have to use them with the store).
@@ -154,16 +154,16 @@ What is the argument for using items-store? (from https://github.com/webpack/rea
 > Now there is an alternative to items-store, which could provide "prerendering" part too: http://fluxible.io/ they use dehyrade and rehyrade to (de)serialize to data from the stores and provide it to the client stores.
 
 Regarding the paths that store data travels (from https://github.com/webpack/react-starter/pull/51 )
-> Q: How is it triggered to refresh everything from the server,   
+> Q: How is it triggered to refresh everything from the server,
 > A: config/app.jsx invalidates store data when you change the page. When the pages read the data again it is invalid and will be refetched.
 
-> Q: how does it propagate changes when the user edits items, and   
+> Q: how does it propagate changes when the user edits items, and
 > A: The component fires an action (from app/actions.jsx) on edit. The action is handled in app/mainStores.jsx and writes some items on stores. The stores update their internal cache (which is displayed on the page as optimistic update) and do server requests (through their registered handlers in app/mainStores.jsx.
 
-> Q: how do values travel before ending up in some components render() ?   
+> Q: how do values travel before ending up in some components render() ?
 > A: component requests values from store in getState() -> app/mainStores.jsx read (unavailable or invalidated) data from server -> internal items-store cache for the store -> getState() -> components this.state -> render()
 
-> Q: how does the queue combine multiple requests? I cant imagine subsequent add/remove/edits would result in just one rest call.. do they?   
+> Q: how does the queue combine multiple requests? I cant imagine subsequent add/remove/edits would result in just one rest call.. do they?
 > A: items-store store a single update per entry. Any subsequent updateItem() call causes both updates to be merged (mergeUpdates from items-store). Requests from stores to the server are queued (queueRequest in app/mainStores.jsx). Here only a single ongoing request is allowed. All writes that happen in the meantime are merged into a single write.
 
 
