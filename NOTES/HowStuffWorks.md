@@ -31,20 +31,20 @@ A JS webserver is included in the form of `lib/server.js`. It can be run in two 
 
 ### development mode
 Run the server using `npm run start-dev`.
-It wil use `lib/server-development.js` which wil use `lib/server.js` which wil use `config/simple.js` which wil use `app/simple.html`. A tiny HTML file is loaded, the JS is downloaded + executed + rendered, and ultimately output is shown.
+It will use `lib/server-development.js` which will use `lib/server.js` which will use `config/simple.js` which will use `app/simple.html`. A tiny HTML file is loaded, the JS is downloaded + executed + rendered, and ultimately output is shown.
 
 ### production mode
 In this mode, the React HTML output is (pre)rendered (and populated) on the server (a.k.a. isomorphic).
 
 Run the server using `npm run start`.
-It wil use `lib/server-production.js` which wil use `lib/server.js` which wil use `config/prerender.jsx` which wil use `app/prerender.html`. A big HTML file is loaded (and output is shown immediately), the JS is downloaded + executed + rendered, and output is updated.
+It will use `lib/server-production.js` which will use `lib/server.js` which will use `config/prerender.jsx` which will use `app/prerender.html`. A big HTML file is loaded (and output is shown immediately), the JS is downloaded + executed + rendered, and output is updated.
 
 This server side render (prerender) is possible because the React JS can be executed on the server.
 In your browser the main `React.render(<Application />, document.getElementById("content"))` call (in `config/app.jsx`) outputs to the browser DOM.
-But when prerendering, the main `React.renderToString(<Application />)` call (in `app/prerender.jsx`) outputs to a string, which is inserted into the HTML (including React component states) as content.
+But when pre-rendering, the main `React.renderToString(<Application />)` call (in `app/prerender.jsx`) outputs to a string, which is inserted into the HTML (including React component states) as content.
 The browser now can show the HTML instantly in the DOM, but proceeds to run the React JS that resumes the usual DOM mutations.
 
-Note: Routes that use `react-proxy!` can not be prerendered.
+Note: Routes that use `react-proxy!` can not be pre-rendered.
 
 
 ## How the page updates while you are programming.
@@ -55,13 +55,13 @@ It is possible to automatically reload _or_ update the page to reflect your chan
 Ensure that you are running the app webserver in development mode.
 
 Then run another server using `npm run dev-server`.
-It wil rebuild while watching for file changes, and it wil trigger your page to reload afterwards.
+It will rebuild while watching for file changes, and it will trigger your page to reload afterwards.
 
 ### hot reloading
 Ensure that you are running the app webserver in development mode.
 
 Then run another server using `npm run hot-dev-server`.
-It wil rebuild while watching for file changes, and it wil update the currently shown and affected component(s) while keeping their state.
+It will rebuild while watching for file changes, and it will update the currently shown and affected component(s) while keeping their state.
 Note this is experimental, and in some cases you'll need to refresh manually.
 
 
@@ -70,7 +70,7 @@ In React after opening the app and going to some page, there is no actual HTML l
 But you'd like to have the URL reflect this, and allow user to use browser history (back/forward). A router takes care of these things. (package react-router)
 
 In this case, the root of your app is not the Application React component.
-This starts at `lib/server.js` which wil use `config/app.jsx` which instantiates the router and ultimately uses `app/mainRoutes.jsx` to load routes.
+This starts at `lib/server.js` which will use `config/app.jsx` which instantiates the router and ultimately uses `app/mainRoutes.jsx` to load routes.
 You'll find that all pages are subroutes within the `app` route, which instantiates `app/Application/index.jsx`, which contains a `RouteHander` component that inserts subroute output.
 
 
@@ -84,7 +84,7 @@ As in Flux; the Stores affect the React components. (package items-store) And th
 See [Q&A Why](#qa-why)
 
 ### Stores setup
-The stores are constructed as such: startpoint is `config/app.jsx` which wil use `app/mainStores.js`. This then:
+The stores are constructed as such: startpoint is `config/app.jsx` which will use `app/mainStores.js`. This then:
 
 - defines routines to handle JSON API read/writes (package superagent), and
 - sets up a queue that only allows one REST request at a time, and aggregates subsequent changes.
@@ -113,7 +113,7 @@ They end up affecting a store. See [How the stores work.](#how-the-stores-work)
 
 
 ## How the server DB works
-When you run `npm run start-dev` (or without `-dev` ofcourse) this wil start the server, as you can see defined in `package.json`. This lets node execute `lib/server-development.js` which uses `lib/server.js` where the default data is loaded, and a server (package express) is thrown together that responds to GET POST and DELETE.
+When you run `npm run start-dev` (or without `-dev` ofcourse) this will start the server, as you can see defined in `package.json`. This lets node execute `lib/server-development.js` which uses `lib/server.js` where the default data is loaded, and a server (package express) is thrown together that responds to GET POST and DELETE.
 
 This (REST API with JSON data format) server is accessible via `http://localhost:8080/_/list/mylist` for example, and this is what the application uses to fetch data for the stores.
 
@@ -132,7 +132,7 @@ When you start run a dev-server (like `npm run dev-server` or `npm run hot-dev-s
 Or you can manually do a normal build using the `npm run build`. Note: these `npm run` scripts are defined in `package.json`.
 
 Depending on what way you used to do this build, a different build configuration is used. For example the normal build script as seen in `package.json` starts webpack with custom config `webpack-production.config.js` which uses shared config `make-webpack-config.js`.
-Most webpack configuration is in that shared config file, per entry. Only one main entry is defined. Prerendering happens depending on the custom config.
+Most webpack configuration is in that shared config file, per entry. Only one main entry is defined. Pre-rendering happens depending on the custom config.
 This is where a lot of node modules (packages) come into play: loaders add JSX support, debug options are set, and the output is set to `build/` is set.
 
 # Q&A Why
@@ -145,13 +145,13 @@ What is the argument for using items-store? (from https://github.com/webpack/rea
 > Q: What was the argument for using items-store?
 > A:
 >
-> I didn't want to write a new module. I actually tried using Reflux.js, but couldn't find a good workflow for prerendering, optimistic updates and merging of multiple writes. You could do it manually but that is something I would expect from a flux implementation. items-store is a very simple store base class that coordinate this behavior (the repo actually also contains a simple helper for actions and a react mixin, but these are theoretically independant and you don't have to use them with the store).
+> I didn't want to write a new module. I actually tried using Reflux.js, but couldn't find a good workflow for pre-rendering, optimistic updates and merging of multiple writes. You could do it manually but that is something I would expect from a flux implementation. items-store is a very simple store base class that coordinate this behavior (the repo actually also contains a simple helper for actions and a react mixin, but these are theoretically independent and you don't have to use them with the store).
 >
-> items-store allows to serialize and deserialize the store data to inject the data after prerendering. It manages optimistic updates and merges multiple writes. But items-store only offers a simple key-value store API and forces you to map more complex operations (via store-helpers) to this model. It's just a caching layer with events to the remote API (which need to be provided in the constructor).
+> items-store allows to serialize and deserialize the store data to inject the data after pre-rendering. It manages optimistic updates and merges multiple writes. But items-store only offers a simple key-value store API and forces you to map more complex operations (via store-helpers) to this model. It's just a caching layer with events to the remote API (which need to be provided in the constructor).
 >
-> items-store basically provides a "raw data" store, while other implementions give you the ablility to write higher level stores. In items-store you need to put this higher-level behavior in store-helpers. The advantage is that this way basic functionality is already provided by items-store.
+> items-store basically provides a "raw data" store, while other implementations give you the ability to write higher level stores. In items-store you need to put this higher-level behavior in store-helpers. The advantage is that this way basic functionality is already provided by items-store.
 >
-> Now there is an alternative to items-store, which could provide "prerendering" part too: http://fluxible.io/ they use dehyrade and rehyrade to (de)serialize to data from the stores and provide it to the client stores.
+> Now there is an alternative to items-store, which could provide "pre-rendering" part too: http://fluxible.io/ they use dehydrate and rehydrate to (de)serialize to data from the stores and provide it to the client stores.
 
 Regarding the paths that store data travels (from https://github.com/webpack/react-starter/pull/51 )
 > Q: How is it triggered to refresh everything from the server,
@@ -165,5 +165,3 @@ Regarding the paths that store data travels (from https://github.com/webpack/rea
 
 > Q: how does the queue combine multiple requests? I cant imagine subsequent add/remove/edits would result in just one rest call.. do they?
 > A: items-store store a single update per entry. Any subsequent updateItem() call causes both updates to be merged (mergeUpdates from items-store). Requests from stores to the server are queued (queueRequest in app/mainStores.jsx). Here only a single ongoing request is allowed. All writes that happen in the meantime are merged into a single write.
-
-
