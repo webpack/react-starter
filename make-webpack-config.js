@@ -65,26 +65,14 @@ module.exports = function(options) {
 		/node_modules[\\\/]items-store[\\\/]/
 	];
 	var plugins = [
-		function() {
-			if(!options.prerender) {
-				this.plugin("done", function(stats) {
-					var jsonStats = stats.toJson({
-						chunkModules: true,
-						exclude: excludeFromStats
-					});
-					jsonStats.publicPath = publicPath;
-					require("fs").writeFileSync(path.join(__dirname, "build", "stats.json"), JSON.stringify(jsonStats));
-				});
-			}
-		},
 		new webpack.PrefetchPlugin("react"),
 		new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment")
 	];
 	if(options.prerender) {
-		plugins.push(new StatsPlugin(path.join(__dirname, "build", "stats.json"), {
+		plugins.push(new StatsPlugin(path.join(__dirname, "build", "stats.prerender.json"), {
 			chunkModules: true,
 			exclude: excludeFromStats
-		}))
+		}));
 		aliasLoader["react-proxy$"] = "react-proxy/unavailable";
 		aliasLoader["react-proxy-loader$"] = "react-proxy-loader/unavailable";
 		externals.push(
@@ -94,6 +82,11 @@ module.exports = function(options) {
 			"async"
 		);
 		plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }));
+	} else {
+		plugins.push(new StatsPlugin(path.join(__dirname, "build", "stats.json"), {
+			chunkModules: true,
+			exclude: excludeFromStats
+		}));
 	}
 	if(options.commonsChunk) {
 		plugins.push(new webpack.optimize.CommonsChunkPlugin("commons", "commons.js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : "")));
