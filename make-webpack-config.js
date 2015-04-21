@@ -119,7 +119,11 @@ module.exports = function(options) {
 	}
 	if(options.minimize) {
 		plugins.push(
-			new webpack.optimize.UglifyJsPlugin(),
+			new webpack.optimize.UglifyJsPlugin({
+				compressor: {
+					warnings: false
+				}
+			}),
 			new webpack.optimize.DedupePlugin(),
 			new webpack.DefinePlugin({
 				"process.env": {
