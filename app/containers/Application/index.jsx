@@ -3,7 +3,7 @@ import { RouteHandler } from "react-router";
 import MainMenu from "components/MainMenu";
 import { Todo as TodoActions } from "actions";
 
-import "./style.css";
+import styles from "./style.css";
 
 export default class Application extends React.Component {
 	static getProps(stores, params) {
@@ -14,8 +14,8 @@ export default class Application extends React.Component {
 	}
 	render() {
 		var { loading } = this.props;
-		return <div className={loading ? "application loading" : "application"}>
-			{loading ? <div style={{float: "right"}}>loading...</div> : null}
+		return <div className={styles.this + (loading ? " " + styles.loading : "")}>
+			<div className={styles.loadingElement}>loading...</div>
 			<h1>react-starter</h1>
 			<MainMenu />
 			<button onClick={this.update}>Update todolist data</button>

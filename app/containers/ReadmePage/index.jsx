@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+import styles from "./style.css";
 
 export default class ReadmePage extends React.Component {
 	static getProps() {
@@ -7,6 +7,6 @@ export default class ReadmePage extends React.Component {
 	}
 	render() {
 		var readme = { __html: require("./../../../README.md") };
-		return <div className="readme-page" dangerouslySetInnerHTML={readme}></div>;
+		return <div className={styles.this} dangerouslySetInnerHTML={readme}></div>;
 	}
 }
