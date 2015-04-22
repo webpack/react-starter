@@ -12,10 +12,10 @@ module.exports = function(options) {
 	};
 	var loaders = {
 		"coffee": "coffee-redux-loader",
-		"jsx": options.hotComponents ? ["react-hot-loader", "babel-loader"] : "babel-loader",
+		"jsx": options.hotComponents ? ["react-hot-loader", "babel-loader?stage=0"] : "babel-loader?stage=0",
 		"json": "json-loader",
 		"js": {
-			loader: "babel-loader",
+			loader: "babel-loader?stage=0",
 			include: path.join(__dirname, "app")
 		},
 		"json5": "json5-loader",
