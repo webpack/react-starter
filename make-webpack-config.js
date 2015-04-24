@@ -107,7 +107,7 @@ module.exports = function(options) {
 		var loaders = stylesheetLoaders[ext];
 		if(Array.isArray(loaders)) loaders = loaders.join("!");
 		if(options.prerender) {
-			stylesheetLoaders[ext] = "null-loader";
+			stylesheetLoaders[ext] = loaders.replace(/^css-loader/, "css-loader/placeholders");
 		} else if(options.separateStylesheet) {
 			stylesheetLoaders[ext] = ExtractTextPlugin.extract("style-loader", loaders);
 		} else {
