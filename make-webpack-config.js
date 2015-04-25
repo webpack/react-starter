@@ -27,11 +27,12 @@ module.exports = function(options) {
 		"html": "html-loader",
 		"md|markdown": ["html-loader", "markdown-loader"]
 	};
+	var cssLoader = options.minimize ? "css-loader" : "css-loader?localIdentName=[path][name]---[local]---[hash:base64:5]";
 	var stylesheetLoaders = {
-		"css": "css-loader",
-		"less": "css-loader!less-loader",
-		"styl": "css-loader!stylus-loader",
-		"scss|sass": "css-loader!sass-loader"
+		"css": cssLoader,
+		"less": [cssLoader, "less-loader"],
+		"styl": [cssLoader, "stylus-loader"],
+		"scss|sass": [cssLoader, "sass-loader"]
 	};
 	var additionalLoaders = [
 		// { test: /some-reg-exp$/, loader: "any-loader" }
@@ -107,7 +108,7 @@ module.exports = function(options) {
 		var loaders = stylesheetLoaders[ext];
 		if(Array.isArray(loaders)) loaders = loaders.join("!");
 		if(options.prerender) {
-			stylesheetLoaders[ext] = loaders.replace(/^css-loader/, "css-loader/placeholders");
+			stylesheetLoaders[ext] = loaders.replace(/^css-loader/, "css-loader/locals");
 		} else if(options.separateStylesheet) {
 			stylesheetLoaders[ext] = ExtractTextPlugin.extract("style-loader", loaders);
 		} else {
@@ -117,14 +118,18 @@ module.exports = function(options) {
 	if(options.separateStylesheet && !options.prerender) {
 		plugins.push(new ExtractTextPlugin("[name].css" + (options.longTermCaching ? "?[contenthash]" : "")));
 	}
-	if(options.minimize) {
+	if(options.minimize && !options.prerender) {
 		plugins.push(
 			new webpack.optimize.UglifyJsPlugin({
 				compressor: {
 					warnings: false
 				}
 			}),
-			new webpack.optimize.DedupePlugin(),
+			new webpack.optimize.DedupePlugin()
+		);
+	}
+	if(options.minimize) {
+		plugins.push(
 			new webpack.DefinePlugin({
 				"process.env": {
 					NODE_ENV: JSON.stringify("production")

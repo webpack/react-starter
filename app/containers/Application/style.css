@@ -2,23 +2,23 @@ body {
 	background: #eee;
 }
 
-.[this] {
+.local[this] {
 	opacity: 1;
 }
 
-.[this].[loading] {
+.local[this].local[loading] {
 	opacity: 0.2;
 	transition: opacity 600ms;
 }
 
-.[this] .[loadingElement] {
+.local[this] .local[loadingElement] {
 	display: none;
 }
 
-.[this].[loading] .[loadingElement] {
+.local[this].local[loading] .local[loadingElement] {
 	display: inherit;
 }
 
-.[loadingElement] {
+.local[loadingElement] {
 	float: right;
 }
