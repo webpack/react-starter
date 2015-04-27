@@ -3,7 +3,6 @@ var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var StatsPlugin = require("stats-webpack-plugin");
 var loadersByExtension = require("./config/loadersByExtension");
-var joinEntry = require("./config/joinEntry");
 
 module.exports = function(options) {
 	var entry = {
