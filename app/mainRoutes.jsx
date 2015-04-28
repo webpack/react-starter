@@ -9,6 +9,7 @@ import TodoListPage from "./routeHandlers/TodoListPage";
 import TodoItemPage from "./routeHandlers/TodoItemPage";
 import HomePage     from "./routeHandlers/HomePage";
 import NotFoundPage from "./routeHandlers/NotFoundPage";
+import ChatPage     from "./routeHandlers/ChatPage";
 
 // polyfill
 if(!Object.assign)
@@ -24,6 +25,7 @@ module.exports = (
 			<Route name="todoitem" path="item/:item" handler={TodoItemPage} />
 		</Route>
 		<Route name="home" path="/home" handler={HomePage} />
+		<Route name="chat" path="/chat" handler={ChatPage} />
 		<DefaultRoute handler={HomePage} />
 		<NotFoundRoute handler={NotFoundPage} />
 	</Route>

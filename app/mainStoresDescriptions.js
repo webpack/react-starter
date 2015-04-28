@@ -38,6 +38,8 @@ function mergeUpdates(a, b) {
 	return a || b;
 }
 
+
+
 module.exports = {
 	// the Router is a local store that handles information about data fetching
 	// see ../config/app.jsx
@@ -64,5 +66,22 @@ module.exports = {
 				error: error.message
 			};
 		}
+	},
+
+	// stores chats in a chat room
+	// changes are react style updates
+	// errors result in a error item
+	ChatRooms: {
+		applyUpdate: (oldData, update) => {
+			return oldData.concat(update.map((u) => ({ sending: true, ...u })));
+		},
+		mergeUpdates: (a, b) => a.concat(b),
+		applyNewError: (oldData, error) => oldData.concat({ error: error })
+	},
+
+	// stores information about each chat user
+	// currently this only stores the message count
+	ChatUsers: {
+
 	}
 }
