@@ -71,7 +71,7 @@ module.exports = {
 	// stores chats in a chat room
 	// changes are react style updates
 	// errors result in a error item
-	ChatRooms: {
+	ChatRoom: {
 		applyUpdate: (oldData, update) => {
 			return oldData.concat(update.map((u) => ({ sending: true, ...u })));
 		},
@@ -81,7 +81,7 @@ module.exports = {
 
 	// stores information about each chat user
 	// currently this only stores the message count
-	ChatUsers: {
-
+	// uses defaults for everything (simple key-value data)
+	ChatUser: {
 	}
 }

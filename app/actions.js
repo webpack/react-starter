@@ -8,3 +8,7 @@ export var Todo = Actions.create([
 	"reload",
 	"update"
 ]);
+
+export var Chat = Actions.create([
+	"send"
+]);

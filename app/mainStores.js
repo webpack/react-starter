@@ -76,7 +76,7 @@ import desc from "./mainStoresDescriptions";
 var stores = module.exports = {
 	Router: new ItemsStore(desc.Router),
 
-	TodoList: new ItemsStore(Object.assign({
+	TodoList: new ItemsStore({
 		// REST API at "/_/list/"
 		// the API also returns "TodoItem"s for requests
 
@@ -94,9 +94,10 @@ var stores = module.exports = {
 		}),
 
 		queueRequest: queue.push.bind(queue),
-	}, desc.TodoList), initialData.TodoList),
+		...desc.TodoList
+	}, initialData.TodoList),
 
-	TodoItem: new ItemsStore(Object.assign({
+	TodoItem: new ItemsStore({
 		// REST API at "/_/todo"
 		// it supports reading up to 10 items at once
 
@@ -105,8 +106,28 @@ var stores = module.exports = {
 		readMultipleItems: readMultipleItems("/_/todo/"),
 
 		queueRequest: queue.push.bind(queue),
-		maxWriteItems: 10
-	}, desc.TodoItem), initialData.TodoItem)
+		maxWriteItems: 10,
+		...desc.TodoItem
+	}, initialData.TodoItem),
+
+	ChatRoom: new ItemsStore({
+		// REST API at "/_/chat-room"
+
+		readSingleItem: readSingleItem("/_/chat-room/"),
+		writeAndReadSingleItem: writeAndReadSingleItem("/_/chat-room/"),
+
+		queueRequest: queue.push.bind(queue),
+		...desc.ChatRoom
+	}, initialData.ChatRoom),
+
+	ChatUser: new ItemsStore({
+		// REST API at "/_/chat-user"
+
+		readSingleItem: readSingleItem("/_/chat-user/"),
+
+		queueRequest: queue.push.bind(queue),
+		...desc.ChatUser
+	}, initialData.ChatUser)
 };
 
 
