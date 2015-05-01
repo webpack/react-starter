@@ -1,18 +1,22 @@
 import React from "react";
 import { Route, DefaultRoute, NotFoundRoute } from "react-router";
 
-import Application  from "./routeHandlers/Application";
-import SomePage     from "./routeHandlers/SomePage";
-import ReadmePage   from "./routeHandlers/ReadmePage";
-import TodoPage     from "./routeHandlers/TodoPage";
-import TodoListPage from "./routeHandlers/TodoListPage";
-import TodoItemPage from "./routeHandlers/TodoItemPage";
-import HomePage     from "./routeHandlers/HomePage";
-import NotFoundPage from "./routeHandlers/NotFoundPage";
+/* eslint-disable no-multi-spaces */
+// Only import from `route-handlers/*`
+import Application  from "route-handlers/Application";
+import SomePage     from "route-handlers/SomePage";
+import ReadmePage   from "route-handlers/ReadmePage";
+import TodoPage     from "route-handlers/TodoPage";
+import TodoListPage from "route-handlers/TodoListPage";
+import TodoItemPage from "route-handlers/TodoItemPage";
+import HomePage     from "route-handlers/HomePage";
+import NotFoundPage from "route-handlers/NotFoundPage";
+import ChatPage     from "route-handlers/ChatPage";
+/* eslint-enable */
 
 // polyfill
 if(!Object.assign)
-	Object.assign = React.__spread;
+	Object.assign = React.__spread; // eslint-disable-line no-underscore-dangle
 
 // export routes
 module.exports = (
@@ -24,6 +28,7 @@ module.exports = (
 			<Route name="todoitem" path="item/:item" handler={TodoItemPage} />
 		</Route>
 		<Route name="home" path="/home" handler={HomePage} />
+		<Route name="chat" path="/chat/:room" handler={ChatPage} />
 		<DefaultRoute handler={HomePage} />
 		<NotFoundRoute handler={NotFoundPage} />
 	</Route>

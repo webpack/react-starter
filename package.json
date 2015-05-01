@@ -29,7 +29,7 @@
     "express": "^4.7.2",
     "extract-text-webpack-plugin": "^0.7.0",
     "file-loader": "^0.8.1",
-    "html-loader": "^0.2.2",
+    "html-loader": "^0.3.0",
     "items-store": "^0.6.1",
     "less": "^2.1.2",
     "less-loader": "^2.0.0",
@@ -46,5 +46,10 @@
     "uuid": "^2.0.1",
     "webpack": "^1.8.5",
     "webpack-dev-server": "^1.4.7"
+  },
+  "devDependencies": {
+    "babel-eslint": "^3.0.1",
+    "eslint": "^0.20.0",
+    "eslint-plugin-react": "^2.2.0"
   }
 }

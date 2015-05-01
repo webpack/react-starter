@@ -1,9 +1,8 @@
 import React from "react";
 import { RouteHandler } from "react-router";
 import MainMenu from "components/MainMenu";
-import { Todo as TodoActions } from "actions";
 
-import styles from "./style.css";
+import styles from "./Application.css";
 
 export default class Application extends React.Component {
 	static getProps(stores, params) {
@@ -18,12 +17,8 @@ export default class Application extends React.Component {
 			<div className={styles.loadingElement}>loading...</div>
 			<h1>react-starter</h1>
 			<MainMenu />
-			<button onClick={this.update}>Update todolist data</button>
 			<RouteHandler />
 		</div>;
-	}
-	update() {
-		TodoActions.update();
 	}
 }
 

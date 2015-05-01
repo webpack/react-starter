@@ -1,11 +1,11 @@
+function extsToRegExp(exts) {
+	return new RegExp("\\.(" + exts.map(function(ext) {
+		return ext.replace(/\./g, "\\.");
+	}).join("|") + ")(\\?.*)?$");
+}
+
 module.exports = function loadersByExtension(obj) {
 	var loaders = [];
-	var extensions = Object.keys(obj).map(function(key) {
-		return key.split("|");
-	}).reduce(function(arr, a) {
-		arr.push.apply(arr, a);
-		return arr;
-	}, []);
 	Object.keys(obj).forEach(function(key) {
 		var exts = key.split("|");
 		var value = obj[key];
@@ -19,17 +19,11 @@ module.exports = function loadersByExtension(obj) {
 		} else if(typeof value === "string") {
 			entry.loader = value;
 		} else {
-			Object.keys(value).forEach(function(key) {
-				entry[key] = value[key];
+			Object.keys(value).forEach(function(valueKey) {
+				entry[valueKey] = value[valueKey];
 			});
 		}
 		loaders.push(entry);
 	});
 	return loaders;
 };
-
-function extsToRegExp(exts) {
-	return new RegExp("\\.(" + exts.map(function(ext) {
-		return ext.replace(/\./g, "\\.");
-	}).join("|") + ")(\\?.*)?$");
-}

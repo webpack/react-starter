@@ -1,0 +1,65 @@
+@startuml
+
+package client {
+    cloud [config/mainApp] as app
+}
+
+package ui {
+    component elements
+    component components
+    component containers
+    component [route-handlers] as rh
+    component mainRoutes
+}
+
+component [store-helpers] as sh
+component [fetch-helpers] as fh
+component [update-helpers] as uh
+
+component actions
+
+package stores {
+    component mainStores
+    component mainStoresDescriptions
+}
+
+package server {
+    component [lib/server] as server
+    component [lib/mainPrerenderApi] as prerenderApi
+    component [config/mainPrerenderer] as mainPrerenderer
+    component api
+    database db
+}
+
+
+
+server -right-> api
+server .down.> mainPrerenderer
+server -down-> prerenderApi
+api --right-> db
+prerenderApi -up-> db
+
+app ---> mainRoutes
+app ---> mainStores
+mainPrerenderer ---> mainRoutes
+mainPrerenderer ---> mainStoresDescriptions
+
+mainRoutes -right-> rh
+rh -right-> containers
+containers -right-> components
+containers -down-> containers
+components -> components
+components -right-> elements
+elements -> elements
+
+containers --> sh
+containers -> actions
+
+mainStores --> actions
+mainStores -right-> mainStoresDescriptions
+mainStores -down-> fh
+mainStoresDescriptions -down-> uh
+
+@enduml
+
+// http://www.planttext.com/planttext

@@ -1,63 +1,10 @@
+/*globals __StoreData */
+
+// This file describe where stores read data from and where stores write data to.
+
 import ItemsStore from "items-store/ItemsStore";
 import async from "async";
-import request from "superagent";
-import ReactUpdates from "react/lib/ReactUpdates";
-
-// a few helper methods for a REST API
-
-function batchedCallback(callback) {
-	return function(err, res) {
-		ReactUpdates.batchedUpdates(callback.bind(null, err, res));
-	}
-}
-
-function writeAndReadSingleItem(path, resultHandler) {
-	resultHandler = resultHandler || function(result) { return result; };
-	return function(options, callback) {
-		request.post(path + options.id)
-			.set("Accept", "application/json")
-			.type("json")
-			.send(options.update)
-			.end(batchedCallback(function(err, res) {
-				if(err) return callback(err);
-				if(res.status !== 200)
-					return callback(new Error("Request failed with " + res.status + ": " + res.text));
-				callback(null, resultHandler(res.body));
-			}));
-	}
-}
-
-function readSingleItem(path, resultHandler) {
-	resultHandler = resultHandler || function(result) { return result; };
-	return function(options, callback) {
-		request.get(path + options.id)
-			.set("Accept", "application/json")
-			.type("json")
-			.end(batchedCallback(function(err, res) {
-				if(err) return callback(err);
-				if(res.status !== 200)
-					return callback(new Error("Request failed with " + res.status + ": " + res.text));
-				callback(null, resultHandler(res.body));
-			}));
-	}
-}
-
-function readMultipleItems(path, resultHandler) {
-	resultHandler = resultHandler || function(result) { return result; };
-	return function(optionsArr, callback) {
-		request.get(path + optionsArr.map(function(options) {
-			return options.id;
-		}).join("+"))
-			.set("Accept", "application/json")
-			.type("json")
-			.end(batchedCallback(function(err, res) {
-				if(err) return callback(err);
-				if(res.status !== 200)
-					return callback(new Error("Request failed with " + res.status + ": " + res.text));
-				callback(null, resultHandler(res.body));
-			}));
-	}
-}
+import { readSingleItem, writeAndReadSingleItem, readMultipleItems } from "fetch-helpers/rest";
 
 // a queue that allows only one REST request at a time
 // it also defers the requests to next tick, to aggregate multiple changes
@@ -73,31 +20,41 @@ var initialData = typeof __StoreData === "object" ? __StoreData : {};
 // take the store descriptions as base
 import desc from "./mainStoresDescriptions";
 
-var stores = module.exports = {
+var stores;
+
+// helper methods to extract embedded data from results
+
+function todoListPlusItems(result) {
+	Object.keys(result.items).forEach(function(key) {
+		stores.TodoItem.setItemData(key.substr(1), result.items[key]);
+	});
+	return result.list;
+}
+
+function chatRoomPlusUsers(result) {
+	Object.keys(result.users).forEach(function(key) {
+		stores.ChatUser.setItemData(key.substr(1), result.users[key]);
+	});
+	return result.room;
+}
+
+// the stores
+stores = module.exports = {
 	Router: new ItemsStore(desc.Router),
 
-	TodoList: new ItemsStore(Object.assign({
-		// REST API at "/_/list/"
+	TodoList: new ItemsStore({
+		// REST API at "/_/list/" (read/write)
 		// the API also returns "TodoItem"s for requests
 
-		writeAndReadSingleItem: writeAndReadSingleItem("/_/list/", function(result) {
-			Object.keys(result.items).forEach(function(key) {
-				stores.TodoItem.setItemData(key.substr(1), result.items[key]);
-			});
-			return result.list;
-		}),
-		readSingleItem: readSingleItem("/_/list/", function(result) {
-			Object.keys(result.items).forEach(function(key) {
-				stores.TodoItem.setItemData(key.substr(1), result.items[key]);
-			});
-			return result.list;
-		}),
+		writeAndReadSingleItem: writeAndReadSingleItem("/_/list/", todoListPlusItems),
+		readSingleItem: readSingleItem("/_/list/", todoListPlusItems),
 
 		queueRequest: queue.push.bind(queue),
-	}, desc.TodoList), initialData.TodoList),
+		...desc.TodoList
+	}, initialData.TodoList),
 
-	TodoItem: new ItemsStore(Object.assign({
-		// REST API at "/_/todo"
+	TodoItem: new ItemsStore({
+		// REST API at "/_/todo" (read/write)
 		// it supports reading up to 10 items at once
 
 		writeAndReadSingleItem: writeAndReadSingleItem("/_/todo/"),
@@ -105,14 +62,40 @@ var stores = module.exports = {
 		readMultipleItems: readMultipleItems("/_/todo/"),
 
 		queueRequest: queue.push.bind(queue),
-		maxWriteItems: 10
-	}, desc.TodoItem), initialData.TodoItem)
+		maxWriteItems: 10,
+		...desc.TodoItem
+	}, initialData.TodoItem),
+
+	ChatRoom: new ItemsStore({
+		// REST API at "/_/chat-room" (read/write)
+		// the API also returns "ChatUsers"s for requests
+
+		writeAndReadSingleItem: writeAndReadSingleItem("/_/chat-room/", chatRoomPlusUsers),
+		readSingleItem: readSingleItem("/_/chat-room/", chatRoomPlusUsers),
+
+		queueRequest: queue.push.bind(queue),
+		...desc.ChatRoom
+	}, initialData.ChatRoom),
+
+	ChatUser: new ItemsStore({
+		// REST API at "/_/chat-user" (read only)
+
+		readSingleItem: readSingleItem("/_/chat-user/"),
+
+		queueRequest: queue.push.bind(queue),
+		...desc.ChatUser
+	}, initialData.ChatUser)
 };
 
 
 // bind actions to stores
 
-import { Todo } from "./actions";
+import { Todo, Chat } from "./actions";
+
+Todo.fetch.listen(function() {
+	stores.TodoList.update();
+	stores.TodoItem.update();
+});
 
 Todo.add.listen(function(list, item) {
 	stores.TodoList.updateItem(list, { $push: [item] });
@@ -122,11 +105,15 @@ Todo.update.listen(function(id, update) {
 	stores.TodoItem.updateItem(id, update);
 });
 
-Todo.reload.listen(function(id) {
+Todo.fetchItem.listen(function(id) {
 	stores.TodoItem.update(id);
 });
 
-Todo.update.listen(function(id) {
-	stores.TodoList.update();
-	stores.TodoItem.update();
+Chat.fetch.listen(function() {
+	stores.ChatRoom.update();
+	stores.ChatUser.update();
+});
+
+Chat.send.listen((room, msg) => {
+	stores.ChatRoom.updateItem(room, [msg]);
 });

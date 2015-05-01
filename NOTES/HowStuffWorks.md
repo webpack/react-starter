@@ -1,3 +1,7 @@
+![importsDiagram][importsDiagram.png]
+
+*A arrow means: `imports`*
+
 # How Stuff Works
 This documentation is for grasping the overall design. No details by intention. To get up and running quickly see `README.md`.
 
@@ -37,14 +41,14 @@ It will use `lib/server-development.js` which will use `lib/server.js` which wil
 In this mode, the React HTML output is (pre)rendered (and populated) on the server (a.k.a. isomorphic).
 
 Run the server using `npm run start`.
-It will use `lib/server-production.js` which will use `lib/server.js` which will use `config/prerender.jsx` which will use `app/prerender.html`. A big HTML file is loaded (and output is shown immediately), the JS is downloaded + executed + rendered, and output is updated.
+It will use `lib/server-production.js` which will use `lib/server.js` which will use `config/mainPrerenderer.jsx` which will use `app/mainPrerender.html`. A big HTML file is loaded (and output is shown immediately), the JS is downloaded + executed + rendered, and output is updated.
 
 This server side render (prerender) is possible because the React JS can be executed on the server.
-In your browser the main `React.render(<Application />, document.getElementById("content"))` call (in `config/app.jsx`) outputs to the browser DOM.
+In your browser the main `React.render(<Application />, document.getElementById("content"))` call (in `config/mainApp.jsx`) outputs to the browser DOM.
 But when pre-rendering, the main `React.renderToString(<Application />)` call (in `app/prerender.jsx`) outputs to a string, which is inserted into the HTML (including React component states) as content.
 The browser now can show the HTML instantly in the DOM, but proceeds to run the React JS that resumes the usual DOM mutations.
 
-Note: Routes that use `react-proxy!` can not be pre-rendered.
+Note: Routes that are asynchronously loaded can not be pre-rendered.
 
 
 ## How the page updates while you are programming.
@@ -70,29 +74,29 @@ In React after opening the app and going to some page, there is no actual HTML l
 But you'd like to have the URL reflect this, and allow user to use browser history (back/forward). A router takes care of these things. (package react-router)
 
 In this case, the root of your app is not the Application React component.
-This starts at `lib/server.js` which will use `config/app.jsx` which instantiates the router and ultimately uses `app/mainRoutes.jsx` to load routes.
-You'll find that all pages are subroutes within the `app` route, which instantiates `app/Application/index.jsx`, which contains a `RouteHander` component that inserts subroute output.
+This starts at `lib/server.js` which will use `config/mainApp.jsx` which instantiates the router and ultimately uses `app/mainRoutes.jsx` to load routes.
+You'll find that all pages are subroutes within the `app` route, which instantiates `app/Application/index.jsx`, which contains a `<RouteHander>` component that inserts subroute output.
 
 
 ## How the server JSON API works.
-The `lib/server.js` serves the application, but it also serves the API URLs that the stores talk with.
+The `lib/server.js` serves the application, but it also serves the API URLs (`lib/api.js`) that the stores talk with.
 It initializes two databases (todolist and todoitem) once, and then continues to listen for GET/POST requests on specific URLs.
 
 
 ## How the stores work.
-As in Flux; the Stores affect the React components. (package items-store) And the stores talk to the JSON API. (package superagent)
+As in Flux; the Stores affect the React components. (package `items-store`) And the stores talk to the JSON API (`app/fetch-helpers/rest.js`).
 See [Q&A Why](#qa-why)
 
 ### Stores setup
-The stores are constructed as such: startpoint is `config/app.jsx` which will use `app/mainStores.js`. This then:
+The stores are constructed as such: startpoint is `config/mainApp.jsx` which will use `app/mainStores.js`. This then:
 
-- defines routines to handle JSON API read/writes (package superagent), and
+- defines routines to handle JSON API read/writes (package `superagent`), and
 - sets up a queue that only allows one REST request at a time, and aggregates subsequent changes.
   These are then sent as one request..
 - and ultimately constructs the two respective `ItemStore` objects (based on `app/mainStoresDescriptions.js`) to which it assigns these routines, queue, and the initial data. This initial data may have been inserted via `app/prerender.html` and `app/`.
-- These are then exported back to `config/app.jsx`, along with a store named `Router`.
+- These are then exported back to `config/mainApp.jsx`, along with a store named `Router`.
 
-The store `Router` just holds a `transition` value which is later read in `Application/index.jsx` to show "loading..." in UI.
+The store `Router` just holds a `transition` value which is later read in `app/containers/Application.jsx` to show "loading..." in UI.
 The stores `TodoList` and `TodoItem` only have minor differences.
 
 If you wonder where the default data is inserted, see (#how-the-server-db-works).
@@ -101,14 +105,14 @@ If you wonder where the default data is inserted, see (#how-the-server-db-works)
 
 todo :question: this section needs review and should be extended.
 
-Note: Components should not access the stores except for reading in `getState()`. Everything else should be done with actions.
+Note: Components should not access the stores except for reading in `getProps()`. Everything else should be done with actions.
 
 
 ## How the actions work.
 The Actions affect the stores. (package items-store)
 
 The actions are setup in `app/mainStores.js` (bottom) from `app/actions.js` which uses the implementation supplied with items-store.
-They are triggered/made by the input fields in components, such as `app/TodoPage/TodoList/index.jsx`.
+They are triggered/made by the input fields in containers, such as `app/containers/TodoListPage.jsx`.
 They end up affecting a store. See [How the stores work.](#how-the-stores-work)
 
 
@@ -155,13 +159,13 @@ What is the argument for using items-store? (from https://github.com/webpack/rea
 
 Regarding the paths that store data travels (from https://github.com/webpack/react-starter/pull/51 )
 > Q: How is it triggered to refresh everything from the server,
-> A: config/app.jsx invalidates store data when you change the page. When the pages read the data again it is invalid and will be refetched.
+> A: `config/mainApp.jsx` invalidates store data when you change the page. When the pages read the data again it is invalid and will be refetched.
 
 > Q: how does it propagate changes when the user edits items, and
-> A: The component fires an action (from app/actions.jsx) on edit. The action is handled in app/mainStores.jsx and writes some items on stores. The stores update their internal cache (which is displayed on the page as optimistic update) and do server requests (through their registered handlers in app/mainStores.jsx.
+> A: The component fires an action (from `app/actions.jsx`) on edit. The action is handled in `app/mainStores.jsx` and writes some items on stores. The stores update their internal cache (which is displayed on the page as optimistic update) and do server requests (through their registered handlers in `app/mainStores.jsx`.
 
 > Q: how do values travel before ending up in some components render() ?
-> A: component requests values from store in getState() -> app/mainStores.jsx read (unavailable or invalidated) data from server -> internal items-store cache for the store -> getState() -> components this.state -> render()
+> A: component requests values from store in getProps() -> `app/mainStores.jsx` read (unavailable or invalidated) data from server -> internal `items-store` cache for the store -> getProps() -> components this.props -> render()
 
 > Q: how does the queue combine multiple requests? I cant imagine subsequent add/remove/edits would result in just one rest call.. do they?
 > A: items-store store a single update per entry. Any subsequent updateItem() call causes both updates to be merged (mergeUpdates from items-store). Requests from stores to the server are queued (queueRequest in app/mainStores.jsx). Here only a single ongoing request is allowed. All writes that happen in the meantime are merged into a single write.

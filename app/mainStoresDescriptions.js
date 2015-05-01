@@ -1,42 +1,8 @@
-// a helper method for merging react style updates
-// (not totally correct, but fine for now)
-function mergeUpdates(a, b) {
-	if(typeof a === "object" && typeof b === "object") {
-		var res = {};
-		Object.keys(a).concat(Object.keys(b)).forEach(function(key) {
-			if(a[key] && b[key]) {
-				switch(key) {
-					case "$push":
-						res[key] = a[key].concat(b[key]);
-						break;
-					case "$unshift":
-						res[key] = b[key].concat(a[key]);
-						break;
-					case "$splice":
-						res[key] = a[key].concat(b[key]);
-						break;
-					case "$set":
-						res[key] = b[key];
-						break;
-					case "$merge":
-						var o = res[key] = {};
-						Object.keys(a[key]).forEach(function(x) {
-							o[x] = a[key][x]
-						});
-						Object.keys(b[key]).forEach(function(x) {
-							o[x] = b[key][x]
-						});
-						break;
-				}
-				res[key] = mergeUpdates(a[key], b[key]);
-			} else if(a[key])
-				res[key] = a[key];
-			else
-				res[key] = b[key];
-		});
-	}
-	return a || b;
-}
+
+// This file describe which stores exists and in which format updates are stored and merged
+
+import { applyUpdate as reactApplyUpdate, mergeUpdates as reactMergeUpdates } from "update-helpers/react";
+import { applyUpdate as listApplyUpdate, mergeUpdates as listMergeUpdates } from "update-helpers/list";
 
 module.exports = {
 	// the Router is a local store that handles information about data fetching
@@ -51,18 +17,31 @@ module.exports = {
 	// stores TodoLists
 	// changes are react style updates
 	TodoList: {
-		applyUpdate: require("react/lib/update"),
-		mergeUpdates: mergeUpdates
+		applyUpdate: reactApplyUpdate,
+		mergeUpdates: reactMergeUpdates
 	},
 
 	// stores TodoItems
 	// changes are in the default format
-	// errors result in artifical error items
-	TodoItem: {
-		applyNewError: function(oldData, error) {
-			return {
-				error: error.message
+	TodoItem: {},
+
+	// stores chats in a chat room
+	// changes are lists of new messages
+	// errors result in a error item
+	ChatRoom: {
+		applyUpdate: listApplyUpdate,
+		mergeUpdates: listMergeUpdates,
+		applyNewError: (oldData, error) => {
+			var errorMessage = {
+				user: "System",
+				message: error.message
 			};
+			return (oldData || []).concat(errorMessage);
 		}
-	}
-}
+	},
+
+	// stores information about each chat user
+	// currently this only stores the message count
+	// uses defaults for everything (simple key-value data)
+	ChatUser: {}
+};

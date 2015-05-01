@@ -1,0 +1,6 @@
+.local[this] {
+	height: 200px;
+	overflow-y: scroll;
+	background: white;
+	border: 1px solid black;
+}

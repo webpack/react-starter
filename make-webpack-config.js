@@ -6,17 +6,17 @@ var loadersByExtension = require("./config/loadersByExtension");
 
 module.exports = function(options) {
 	var entry = {
-		main: reactEntry("main"),
-		// second: reactEntry("second")
+		main: options.prerender ? "./config/mainPrerenderer" : "./config/mainApp"
+		// second: options.prerender ? "./config/secondPrerenderer" : "./config/secondApp"
 	};
 	var loaders = {
-		"coffee": "coffee-redux-loader",
 		"jsx": options.hotComponents ? ["react-hot-loader", "babel-loader?stage=0"] : "babel-loader?stage=0",
-		"json": "json-loader",
 		"js": {
 			loader: "babel-loader?stage=0",
 			include: path.join(__dirname, "app")
 		},
+		"json": "json-loader",
+		"coffee": "coffee-redux-loader",
 		"json5": "json5-loader",
 		"txt": "raw-loader",
 		"png|jpg|jpeg|gif|svg": "url-loader?limit=10000",
@@ -100,18 +100,15 @@ module.exports = function(options) {
 
 
 
-	function reactEntry(name) {
-		return (options.prerender ? "./config/prerender?" : "./config/app?") + name;
-	}
 	Object.keys(stylesheetLoaders).forEach(function(ext) {
-		var loaders = stylesheetLoaders[ext];
-		if(Array.isArray(loaders)) loaders = loaders.join("!");
+		var stylesheetLoader = stylesheetLoaders[ext];
+		if(Array.isArray(stylesheetLoader)) stylesheetLoader = stylesheetLoader.join("!");
 		if(options.prerender) {
-			stylesheetLoaders[ext] = loaders.replace(/^css-loader/, "css-loader/locals");
+			stylesheetLoaders[ext] = stylesheetLoader.replace(/^css-loader/, "css-loader/locals");
 		} else if(options.separateStylesheet) {
-			stylesheetLoaders[ext] = ExtractTextPlugin.extract("style-loader", loaders);
+			stylesheetLoaders[ext] = ExtractTextPlugin.extract("style-loader", stylesheetLoader);
 		} else {
-			stylesheetLoaders[ext] = "style-loader!" + loaders;
+			stylesheetLoaders[ext] = "style-loader!" + stylesheetLoader;
 		}
 	});
 	if(options.separateStylesheet && !options.prerender) {
