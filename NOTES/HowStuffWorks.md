@@ -1,6 +1,6 @@
 ![importsDiagram](importsDiagram.png)
 
-*A arrow means: `imports`*
+*An arrow means: `imports`*
 
 # How Stuff Works
 This documentation is for grasping the overall design. No details by intention. To get up and running quickly see `README.md`.
