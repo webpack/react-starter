@@ -1,4 +1,4 @@
-![importsDiagram][importsDiagram.png]
+![importsDiagram](importsDiagram.png)
 
 *A arrow means: `imports`*
 
