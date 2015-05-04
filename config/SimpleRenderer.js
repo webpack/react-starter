@@ -10,4 +10,4 @@ SimpleRenderer.prototype.render = function(_path, _readItems, callback) {
 	callback(null, this.html);
 };
 
-exports.default = SimpleRenderer;
+module.exports = SimpleRenderer;
