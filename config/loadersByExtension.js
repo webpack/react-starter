@@ -11,8 +11,7 @@ module.exports = function loadersByExtension(obj) {
 		var value = obj[key];
 		var entry = {
 			extensions: exts,
-			test: extsToRegExp(exts),
-			loaders: value
+			test: extsToRegExp(exts)
 		};
 		if(Array.isArray(value)) {
 			entry.loaders = value;
