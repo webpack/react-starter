@@ -1,4 +1,4 @@
-.local[this] {
+.this {
 	height: 200px;
 	overflow-y: scroll;
 	background: white;
