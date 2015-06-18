@@ -1,4 +1,4 @@
-t stash
+git stash
 commitDate=`date +%Y-%m-%d:%H:%M:%S`
 randomNum=$RANDOM
 echo $randomNum
