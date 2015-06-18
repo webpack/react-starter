@@ -8,6 +8,7 @@
     "dev-server": "webpack-dev-server --config webpack-dev-server.config.js --progress --colors --port 2992 --inline",
     "hot-dev-server": "webpack-dev-server --config webpack-hot-dev-server.config.js --hot --progress --colors --port 2992 --inline",
     "build": "webpack --config webpack-production.config.js --progress --profile --colors",
+    "build-static": "webpack --config webpack-static-site.config.js --progress --profile --colors && sh gh-pages-deploy.sh",
     "start-dev": "node lib/server-development",
     "start": "node lib/server-production"
   },

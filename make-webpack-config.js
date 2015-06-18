@@ -91,15 +91,15 @@ module.exports = function(options) {
 	if(options.commonsChunk) {
 		plugins.push(new webpack.optimize.CommonsChunkPlugin("commons", "commons.js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : "")));
 	}
-	var asyncLoader = {
-		test: require("./app/route-handlers/async").map(function(name) {
-			return path.join(__dirname, "app", "route-handlers", name);
-		}),
-		loader: options.prerender ? "react-proxy-loader/unavailable" : "react-proxy-loader"
-	};
 
-
-
+	if(!options.staticSite){
+		var asyncLoader = {
+			test: require("./app/route-handlers/async").map(function(name) {
+				return path.join(__dirname, "app", "route-handlers", name);
+			}),
+			loader: options.prerender ? "react-proxy-loader/unavailable" : "react-proxy-loader"
+		};
+	}
 	Object.keys(stylesheetLoaders).forEach(function(ext) {
 		var stylesheetLoader = stylesheetLoaders[ext];
 		if(Array.isArray(stylesheetLoader)) stylesheetLoader = stylesheetLoader.join("!");
@@ -135,12 +135,15 @@ module.exports = function(options) {
 		);
 	}
 
+	var loaderStart =  typeof asyncLoader !== 'undefined' ? [asyncLoader] : [];
 	return {
 		entry: entry,
 		output: output,
 		target: options.prerender ? "node" : "web",
 		module: {
-			loaders: [asyncLoader].concat(loadersByExtension(loaders)).concat(loadersByExtension(stylesheetLoaders)).concat(additionalLoaders)
+			loaders: loaderStart.concat(loadersByExtension(loaders))
+				.concat(loadersByExtension(stylesheetLoaders))
+				.concat(additionalLoaders)
 		},
 		devtool: options.devtool,
 		debug: options.debug,
