@@ -30,7 +30,7 @@ export default function renderApplication(routes, stores, options) {
 		// when the data is not fully fetched after the timeout components are rendered (with missing/old data)
 		withTimeout(async.forEach.bind(async, state.routes, function(route, callback) {
 			if(route.handler.chargeStores) {
-				route.handler.chargeStores(stores, state.params, callback);
+				route.handler.chargeStores(stores, state.params, state.query, callback);
 			} else {
 				callback();
 			}
