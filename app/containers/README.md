@@ -14,4 +14,4 @@ Don't import:
 * `elements/*` -> use a component instead
 * `route-handlers/*`
 
-Every container exposes a `getProps(stores, params)` method which can be used by the caller to fetch the  props` for the container. It's expected that `getProps` is called within dependency-tracker context (This is done by `items-store` `createContainer`).
+Every container exposes a `getProps(stores, params, query)` method which can be used by the caller to fetch the  `props` for the container. It's expected that `getProps` is called within dependency-tracker context (This is done by `items-store` `createContainer`).

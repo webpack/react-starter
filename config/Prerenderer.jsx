@@ -15,7 +15,7 @@ export default class Prerenderer {
 			// for faster response time there could be a timeout here
 			async.forEach(state.routes, (route, innerCallback) => {
 				if(route.handler.chargeStores) {
-					route.handler.chargeStores(stores, state.params, innerCallback);
+					route.handler.chargeStores(stores, state.params, state.query, innerCallback);
 				} else {
 					innerCallback();
 				}

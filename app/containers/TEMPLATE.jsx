@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./TEMPLATE.css";
 
 export default class TEMPLATE extends React.Component {
-	static getProps(stores, params) {
+	static getProps(stores, params, query) {
 		return {
 			// Fetch data here
 		};
