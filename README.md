@@ -153,7 +153,7 @@ SourceMaps contains your unminimized source code, so you need to restrict access
 
 ### Coffeescript
 
-Coffeescript is not installed/enabled by default to not distrub non-coffee developer, but you can install it easily:
+Coffeescript is not installed/enabled by default to not disturb non-coffee developer, but you can install it easily:
 
 1. `npm install coffee-redux-loader --save`
 2. In `make-webpack-config.js` add `".coffee"` to the `var extensions = ...` line.
