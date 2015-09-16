@@ -13,9 +13,9 @@ export default class MainRenderer {
 			.replace("COMMONS_URL", options.commonsUrl);
 	}
 
-	render(path, readItems, callback) {
+	render(req, readItems, callback) {
 		var stores = createStoresForPrerender(storesDescriptions, readItems);
-		this.prerenderer.getContent(path, stores, (err, content, data) => {
+		this.prerenderer.getContent(req.path, stores, (err, content, data) => {
 			if(err) return callback(err);
 			var page = this.html
 				.replace("DATA", JSON.stringify(data))

@@ -5,8 +5,8 @@
   "main": "app/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-server": "webpack-dev-server --config webpack-dev-server.config.js --progress --colors --port 2992 --inline",
-    "hot-dev-server": "webpack-dev-server --config webpack-hot-dev-server.config.js --hot --progress --colors --port 2992 --inline",
+    "dev-server": "webpack-dev-server --host 0.0.0.0 --config webpack-dev-server.config.js --progress --colors --port 2992 --inline",
+    "hot-dev-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --hot --progress --colors --port 2992 --inline",
     "build": "webpack --config webpack-production.config.js --progress --profile --colors",
     "start-dev": "node lib/server-development",
     "start": "node lib/server-production"
@@ -45,7 +45,7 @@
     "url-loader": "^0.5.5",
     "uuid": "^2.0.1",
     "webpack": "^1.8.5",
-    "webpack-dev-server": "^1.4.7"
+    "webpack-dev-server": "^1.11.0"
   },
   "devDependencies": {
     "babel-eslint": "^3.0.1",
