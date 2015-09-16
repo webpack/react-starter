@@ -12,7 +12,7 @@ set -o xtrace
 
 export DEBIAN_FRONTEND=noninteractive
 curl -sL https://deb.nodesource.com/setup_iojs_1.x | sudo bash -
-apt-get install -y iojs
+apt-get install -y iojs build-essential
 
 exec sudo -i -u vagrant /bin/bash -- << EOF
 cd /vagrant
