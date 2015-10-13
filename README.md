@@ -25,7 +25,7 @@ Starter template for react and webpack.
 
 ## Local Installation
 
-Install [node.js](https://nodejs.org) or [io.js](https://iojs.org)
+Install [node.js](https://nodejs.org).
 
 Just clone this repo and change the `origin` git remote.
 
