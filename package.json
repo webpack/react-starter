@@ -9,7 +9,9 @@
     "hot-dev-server": "webpack-dev-server --config webpack-hot-dev-server.config.js --hot --progress --colors --port 2992 --inline",
     "build": "webpack --config webpack-production.config.js --progress --profile --colors",
     "start-dev": "node lib/server-development",
-    "start": "node lib/server-production"
+    "start": "node lib/server-production",
+    "all-dev": "./node_modules/.bin/parallelshell 'npm run dev-server' 'npm run start-dev'",
+    "all-hot-dev": "./node_modules/.bin/parallelshell 'npm run hot-dev-server' 'npm run start-dev'"
   },
   "keywords": [
     "webpack",
@@ -50,6 +52,7 @@
   "devDependencies": {
     "babel-eslint": "^3.0.1",
     "eslint": "^0.22.0",
-    "eslint-plugin-react": "^2.2.0"
+    "eslint-plugin-react": "^2.2.0",
+    "parallelshell": "^2.0.0"
   }
 }
